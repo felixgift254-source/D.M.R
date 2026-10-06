@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8fafc;
+    color: #1e293b;
+    /* Subtle radial gradient for premium feel */
+    background-image: radial-gradient(at 0% 0%, hsla(169,100%,94%,1) 0px, transparent 50%),
+                      radial-gradient(at 100% 0%, hsla(213,100%,96%,1) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

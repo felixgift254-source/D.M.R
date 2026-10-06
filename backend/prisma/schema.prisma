@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums converted to Strings for SQLite compatibility
+// enum Role { PATIENT, DOCTOR, ADMIN }
+// enum ProtocolPhase { PHASE_1, PHASE_2, PHASE_3 }
+
+model User {
+  id                      String               @id @default(uuid())
+  email                   String               @unique
+  passwordHash            String
+  role                    String               @default("PATIENT")
+  currentPhase            String               @default("PHASE_1")
+  medications             String               @default("None") // e.g., "Insulin, Sulfonylurea, Metformin"
+  dietaryPreferences      String?              // e.g., "Vegetarian, Halal"
+  targetWeight            Float?               // e.g., 68.5
+  phaseAdvancementPending Boolean              @default(false) // Set when auto-advancement criteria met but meds require doctor review
+
+  // Doctor-Patient relation
+  doctorId          String?
+  doctor            User?           @relation("DoctorToPatient", fields: [doctorId], references: [id])
+  patients          User[]          @relation("DoctorToPatient")
+
+  healthLogs        HealthLog[]
+  dietaryLogs       DietaryLog[]
+  posts             CommunityPost[]
+  userGardenCrops   UserGardenCrop[]
+  mealPlans         MealPlan[]
+  alerts            Alert[]               @relation("PatientAlerts")
+  passwordResetTokens PasswordResetToken[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model HealthLog {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  // Encrypted fields for data privacy (AES-256)
+  weightEncrypted  String
+  glucoseEncrypted String
+  loggedAt         DateTime @default(now())
+}
+
+model DietaryLog {
+  id                   String   @id @default(uuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id])
+  mealDetailsEncrypted String   // AES-256-GCM encrypted meal description
+  loggedAt             DateTime @default(now())
+}
+
+model EducationalContent {
+  id        String  @id @default(uuid())
+  title     String
+  content   String
+  type      String  @default("article") // "article" or "video"
+  isLowData Boolean @default(true) // optimized for low-data usage
+}
+
+model GardenGuide {
+  id                String @id @default(uuid())
+  title             String
+  description       String
+  plantType         String
+  difficulty        String @default("Easy")
+  timeToHarvest     String @default("30 days") // E.g., "30 days"
+  
+  plantingMethods   String?
+  companionPlants   String?
+  growingConditions String?
+  
+  userGardenCrops   UserGardenCrop[]
+}
+
+model UserGardenCrop {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  gardenGuideId   String
+  gardenGuide     GardenGuide @relation(fields: [gardenGuideId], references: [id])
+  plantingDate    DateTime    @default(now())
+  expectedHarvestDate DateTime? 
+  status          String      @default("GROWING") // GROWING, HARVESTED
+}
+
+model Recipe {
+  id              String             @id @default(uuid())
+  name            String
+  description     String
+  allowedPhase    String
+  carbsPerServing Float
+  ingredients     RecipeIngredient[]
+  mealPlans       MealPlan[]
+}
+
+model RecipeIngredient {
+  id             String  @id @default(uuid())
+  recipeId       String
+  recipe         Recipe  @relation(fields: [recipeId], references: [id])
+  name           String
+  isGrowable     Boolean @default(false)
+  gardenCropName String? // Matches exactly to a GardenGuide title (e.g., "Container Sukuma Wiki")
+}
+
+model MealPlan {
+  id        String @id @default(uuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  recipeId  String
+  recipe    Recipe @relation(fields: [recipeId], references: [id])
+  dayOfWeek String // e.g., "Monday"
+  mealType  String // e.g., "Breakfast", "Lunch", "Dinner"
+}
+
+model CommunityPost {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+// Hypo and phase-pending alerts for doctors
+model Alert {
+  id           String   @id @default(uuid())
+  patientId    String
+  patient      User     @relation("PatientAlerts", fields: [patientId], references: [id])
+  type         String   // "HYPO" | "PHASE_PENDING"
+  message      String
+  glucoseVal   Float?
+  acknowledged Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+// Time-limited, single-use tokens for password reset
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  tokenHash String   @unique // SHA-256 hash of the raw token sent by email
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
