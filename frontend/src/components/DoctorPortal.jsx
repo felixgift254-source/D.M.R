@@ -170,6 +170,7 @@ const DoctorPortal = () => {
   };
 
   const hypoAlertsCount = alerts.filter(a => a.type === 'HYPO').length || patients.filter(p => p.hasHypoAlert).length;
+  const hyperAlertsCount = alerts.filter(a => a.type === 'HYPER').length || patients.filter(p => p.hasHyperAlert).length;
   const pendingApprovalsCount = patients.filter(p => p.phaseAdvancementPending).length;
 
   return (
@@ -202,7 +203,7 @@ const DoctorPortal = () => {
       </div>
 
       {/* Roster Overview Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
           <div>
             <span className="text-xs font-semibold text-slate-400 uppercase block">Active Patients</span>
@@ -215,12 +216,24 @@ const DoctorPortal = () => {
 
         <div className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold text-slate-400 uppercase block">Urgent Hypo Alerts</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase block">Hypo Alerts (≤ 4.0)</span>
             <span className={`text-2xl font-bold ${hypoAlertsCount > 0 ? 'text-rose-600' : 'text-slate-800'}`}>
               {hypoAlertsCount}
             </span>
           </div>
           <div className={`p-3 rounded-xl ${hypoAlertsCount > 0 ? 'bg-rose-100 text-rose-600' : 'bg-surface-100 text-slate-400'}`}>
+            <AlertTriangle size={24} />
+          </div>
+        </div>
+
+        <div className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+          <div>
+            <span className="text-xs font-semibold text-slate-400 uppercase block">Hyper Risk (≥ 11.1)</span>
+            <span className={`text-2xl font-bold ${hyperAlertsCount > 0 ? 'text-orange-600' : 'text-slate-800'}`}>
+              {hyperAlertsCount}
+            </span>
+          </div>
+          <div className={`p-3 rounded-xl ${hyperAlertsCount > 0 ? 'bg-orange-100 text-orange-600' : 'bg-surface-100 text-slate-400'}`}>
             <AlertTriangle size={24} />
           </div>
         </div>
@@ -240,7 +253,7 @@ const DoctorPortal = () => {
 
       {/* Active Clinical Alerts Feed */}
       {alerts.length > 0 && (
-        <div className="bg-white/90 backdrop-blur-sm border border-rose-200 rounded-2xl p-5 shadow-sm space-y-3">
+        <div id="alerts-section" className="bg-white/90 backdrop-blur-sm border border-rose-200 rounded-2xl p-5 shadow-sm space-y-3 scroll-mt-28">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-rose-800 flex items-center gap-2">
               <AlertTriangle size={18} className="text-rose-600" />
@@ -252,10 +265,18 @@ const DoctorPortal = () => {
             {alerts.map(alert => (
               <div key={alert.id} className="py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                 <div>
-                  <span className={`font-bold mr-2 px-2 py-0.5 rounded-full ${
-                    alert.type === 'HYPO' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'
+                  <span className={`font-bold mr-2 px-2 py-0.5 rounded-full border ${
+                    alert.type === 'HYPO'
+                      ? 'bg-rose-100 text-rose-700 border-rose-200'
+                      : alert.type === 'HYPER'
+                      ? 'bg-orange-100 text-orange-800 border-orange-200'
+                      : 'bg-amber-100 text-amber-700 border-amber-200'
                   }`}>
-                    {alert.type === 'HYPO' ? 'HYPO RISK' : 'PHASE PENDING'}
+                    {alert.type === 'HYPO'
+                      ? 'HYPO RISK (≤ 4.0)'
+                      : alert.type === 'HYPER'
+                      ? 'HYPERGLYCEMIA RISK (≥ 11.1)'
+                      : 'PHASE PENDING'}
                   </span>
                   <span className="font-semibold text-slate-700">{alert.patient?.email}: </span>
                   <span className="text-slate-600">{alert.message}</span>
@@ -280,7 +301,7 @@ const DoctorPortal = () => {
       )}
 
       {/* Patients Roster List */}
-      <div className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl shadow-sm overflow-hidden">
+      <div id="patients-section" className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl shadow-sm overflow-hidden scroll-mt-28">
         <div className="p-6 border-b border-surface-200 flex justify-between items-center">
           <h3 className="text-lg font-bold text-slate-800">All Patients Under Supervision</h3>
           <span className="text-xs text-slate-400 font-medium">Decrypted PHI access active</span>
@@ -311,7 +332,12 @@ const DoctorPortal = () => {
                     </span>
                     {patient.hasHypoAlert && (
                       <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white bg-rose-500 px-2.5 py-0.5 rounded-full animate-pulse">
-                        <AlertTriangle size={12} /> HYPO (&lt;4.0)
+                        <AlertTriangle size={12} /> HYPO (≤4.0)
+                      </span>
+                    )}
+                    {patient.hasHyperAlert && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white bg-orange-500 px-2.5 py-0.5 rounded-full animate-pulse">
+                        <AlertTriangle size={12} /> HYPER (≥11.1)
                       </span>
                     )}
                     {patient.phaseAdvancementPending && (
@@ -333,7 +359,13 @@ const DoctorPortal = () => {
                 <div className="flex items-center gap-6 text-right w-full sm:w-auto justify-between sm:justify-end">
                   <div>
                     <span className="text-[11px] font-semibold text-slate-400 uppercase block">Latest Fasting Glucose</span>
-                    <span className={`text-base font-bold ${patient.hasHypoAlert ? 'text-rose-600' : 'text-slate-800'}`}>
+                    <span className={`text-base font-bold ${
+                      patient.hasHypoAlert
+                        ? 'text-rose-600'
+                        : patient.hasHyperAlert
+                        ? 'text-orange-600'
+                        : 'text-slate-800'
+                    }`}>
                       {patient.latestGlucose !== null ? `${patient.latestGlucose} mmol/L` : 'No logs yet'}
                     </span>
                   </div>
@@ -435,6 +467,34 @@ const DoctorPortal = () => {
                 )}
               </div>
 
+              {/* Active Clinical Alert Callout */}
+              {selectedPatient.hasHypoAlert && (
+                <div className="bg-rose-50 p-4 rounded-xl border border-rose-300 flex items-start gap-3">
+                  <AlertTriangle className="text-rose-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div className="space-y-1">
+                    <h5 className="font-bold text-rose-900 text-xs uppercase tracking-wide">
+                      Active Hypoglycemia Alert (≤ 4.0 mmol/L)
+                    </h5>
+                    <p className="text-xs text-rose-800 leading-relaxed">
+                      Patient recently logged a glucose reading of <strong>{selectedPatient.latestGlucose} mmol/L</strong>. They were instructed on the Rule of 15 (take 15g fast-acting sugar and re-test after 15 minutes). If the patient is prescribed insulin or sulfonylureas, immediate dosage reduction should be evaluated.
+                    </p>
+                  </div>
+                </div>
+              )}
+              {selectedPatient.hasHyperAlert && (
+                <div className="bg-orange-50 p-4 rounded-xl border border-orange-300 flex items-start gap-3">
+                  <AlertTriangle className="text-orange-600 flex-shrink-0 mt-0.5" size={20} />
+                  <div className="space-y-1">
+                    <h5 className="font-bold text-orange-900 text-xs uppercase tracking-wide">
+                      Active Hyperglycemia Risk (≥ 11.1 mmol/L)
+                    </h5>
+                    <p className="text-xs text-orange-800 leading-relaxed">
+                      Patient recently logged a glucose reading of <strong>{selectedPatient.latestGlucose} mmol/L</strong>. Patient was instructed on hydration and strict carbohydrate avoidance. Clinician follow-up recommended to assess dietary adherence or medication review.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Patient Glucose History Chart */}
               <div>
                 <h4 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
@@ -456,8 +516,8 @@ const DoctorPortal = () => {
                     {patientLogs.slice(-5).map(log => (
                       <div key={log.id} className="flex justify-between items-center text-xs py-1 border-b border-surface-200/60 last:border-0">
                         <span className="text-slate-600">{new Date(log.loggedAt).toLocaleDateString()}</span>
-                        <span className={`font-bold ${log.glucose < 4.0 ? 'text-rose-600' : log.glucose <= 6.0 ? 'text-emerald-600' : 'text-amber-600'}`}>
-                          {log.glucose} mmol/L
+                        <span className={`font-bold ${log.glucose <= 4.0 ? 'text-rose-600' : log.glucose >= 11.1 ? 'text-orange-600' : log.glucose <= 6.0 ? 'text-emerald-600' : 'text-amber-600'}`}>
+                          {log.glucose} mmol/L {log.glucose <= 4.0 ? '(HYPO ≤4.0)' : log.glucose >= 11.1 ? '(HYPER ≥11.1)' : ''}
                         </span>
                         <span className="text-slate-700">{log.weight} kg</span>
                       </div>

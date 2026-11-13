@@ -1,3 +1,9 @@
+const path = require('path');
+// Ensure environment variables are loaded regardless of execution working directory
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -17,12 +23,39 @@ if (!process.env.ENCRYPTION_KEY || Buffer.from(process.env.ENCRYPTION_KEY, 'utf-
 
 const app = express();
 
+// Enable trust proxy for reverse proxies (Nginx, Docker port-forwarding, dev proxies)
+// Resolves ERR_ERL_UNEXPECTED_X_FORWARDED_FOR in express-rate-limit
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true }
 }));
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost',
+  'http://localhost:80',
+  'http://127.0.0.1',
+  'http://localhost:5000',
+  'http://127.0.0.1:5000',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, or same-origin)
+    if (!origin) return callback(null, true);
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:')
+    ) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 
@@ -42,6 +75,7 @@ const limiter = rateLimit({
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 app.use('/api/', limiter);
 
@@ -52,6 +86,7 @@ const authLimiter = rateLimit({
   message: { error: 'Too many attempts, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 
 // Logging and parsing
@@ -91,17 +126,21 @@ app.post('/api/auth/forgot-password', authLimiter, validate(forgotPasswordSchema
 app.post('/api/auth/reset-password', authLimiter, validate(resetPasswordSchema), authController.resetPassword);
 app.get('/api/auth/me', authMiddleware, authController.getMe);
 
-// === Content Routes (public) ===
+// === Content & Garden Routes ===
 app.get('/api/education', educationController.getEducationalContent);
 app.get('/api/garden', gardenController.getGardenGuides);
+app.get('/api/garden/my-crops', authMiddleware.optionalAuth, gardenController.getMyCrops);
+app.post('/api/garden/plant', authMiddleware, gardenController.plantCrop);
 
 // === Community Routes (authenticated) ===
 app.get('/api/community/posts', authMiddleware, communityController.getPosts);
 app.post('/api/community/posts', authMiddleware, validate(createPostSchema), communityController.createPost);
 
-// === Meal Plan Routes ===
-app.get('/api/meal-plan/:userId', authMiddleware, mealPlanController.getWeeklyMealPlan);
-app.post('/api/meal-plan/:userId/generate', authMiddleware, mealPlanController.generateMealPlan);
+// === Meal Plan Routes (supports authenticated patients and guest previews) ===
+app.get('/api/meal-plan', authMiddleware.optionalAuth, mealPlanController.getWeeklyMealPlan);
+app.post('/api/meal-plan/generate', authMiddleware.optionalAuth, mealPlanController.generateMealPlan);
+app.get('/api/meal-plan/:userId', authMiddleware.optionalAuth, mealPlanController.getWeeklyMealPlan);
+app.post('/api/meal-plan/:userId/generate', authMiddleware.optionalAuth, mealPlanController.generateMealPlan);
 
 // === Health Log Routes ===
 app.post('/api/logs', authMiddleware, validate(submitLogSchema), logController.submitLog);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Sprout, Sun, Droplets, BookOpen, Calendar, Clock, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -7,7 +8,7 @@ const KitchenGarden = () => {
   const [guides, setGuides] = useState([]);
   const [myCrops, setMyCrops] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { authFetch } = useAuth();
+  const { user, authFetch } = useAuth();
 
   useEffect(() => {
     fetchData();
@@ -36,6 +37,10 @@ const KitchenGarden = () => {
   };
 
   const startGrowing = async (guideId) => {
+    if (!user) {
+      alert('Please sign in to add crops to your personal garden planner.');
+      return;
+    }
     try {
       const res = await authFetch('/api/garden/plant', {
         method: 'POST',
@@ -45,9 +50,13 @@ const KitchenGarden = () => {
       if (res.ok) {
         alert('Successfully added to your garden planner!');
         setActiveTab('my-garden');
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        alert(errorData.error || 'Failed to add crop to your garden.');
       }
     } catch (error) {
       console.error('Failed to start growing', error);
+      alert('Failed to plant crop. Please check your network connection.');
     }
   };
 
@@ -174,13 +183,27 @@ const KitchenGarden = () => {
             <div className="col-span-full py-12 text-center flex flex-col items-center justify-center text-slate-500 bg-surface-50 rounded-xl border border-dashed border-surface-300">
               <Sprout size={48} className="text-emerald-200 mb-4" />
               <p className="text-lg font-medium text-slate-700">Your garden is empty</p>
-              <p className="mt-1 mb-4">Head over to the Guide Library to start growing.</p>
-              <button 
-                onClick={() => setActiveTab('library')}
-                className="px-6 py-2 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-lg font-medium transition-colors"
-              >
-                Browse Library
-              </button>
+              <p className="mt-1 mb-4 text-sm text-slate-500">
+                {user 
+                  ? 'Head over to the Guide Library to choose crops and start growing.' 
+                  : 'Sign in to save planted crops to your personal planner, or browse the guide library.'}
+              </p>
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setActiveTab('library')}
+                  className="px-6 py-2 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-lg font-medium transition-colors"
+                >
+                  Browse Library
+                </button>
+                {!user && (
+                  <Link 
+                    to="/login"
+                    className="px-6 py-2 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg font-medium transition-colors shadow-sm"
+                  >
+                    Sign In to Plan
+                  </Link>
+                )}
+              </div>
             </div>
           )}
         </div>

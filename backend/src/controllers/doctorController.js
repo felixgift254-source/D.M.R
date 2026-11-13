@@ -43,7 +43,8 @@ const getPatients = async (req, res) => {
       const latestLog = p.healthLogs[0] || null;
       const latestGlucose = latestLog ? parseFloat(safeDecrypt(latestLog.glucoseEncrypted)) || 0 : null;
       const latestWeight = latestLog ? parseFloat(safeDecrypt(latestLog.weightEncrypted)) || 0 : null;
-      const hasHypoAlert = latestGlucose !== null && latestGlucose < 4.0;
+      const hasHypoAlert = latestGlucose !== null && latestGlucose <= 4.0;
+      const hasHyperAlert = latestGlucose !== null && latestGlucose >= 11.1;
 
       return {
         id: p.id,
@@ -57,7 +58,8 @@ const getPatients = async (req, res) => {
         latestGlucose,
         latestWeight,
         lastLoggedAt: latestLog ? latestLog.loggedAt : null,
-        hasHypoAlert
+        hasHypoAlert,
+        hasHyperAlert
       };
     });
 
@@ -77,18 +79,21 @@ const getPatientLogs = async (req, res) => {
   try {
     const { patientId } = req.params;
 
+    // Fetch the most recent 60 logs and return in chronological order
     const logs = await prismaClient.healthLog.findMany({
       where: { userId: patientId },
-      orderBy: { loggedAt: 'asc' },
-      take: 50
+      orderBy: { loggedAt: 'desc' },
+      take: 60
     });
 
-    const history = logs.map(log => ({
-      id: log.id,
-      loggedAt: log.loggedAt,
-      glucose: parseFloat(safeDecrypt(log.glucoseEncrypted)) || 0,
-      weight: parseFloat(safeDecrypt(log.weightEncrypted)) || 0
-    }));
+    const history = logs
+      .map(log => ({
+        id: log.id,
+        loggedAt: log.loggedAt,
+        glucose: parseFloat(safeDecrypt(log.glucoseEncrypted)) || 0,
+        weight: parseFloat(safeDecrypt(log.weightEncrypted)) || 0
+      }))
+      .reverse();
 
     res.json({ history });
   } catch (error) {

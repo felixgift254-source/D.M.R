@@ -2,7 +2,7 @@ import React from 'react';
 import AnalyticsCharts from './AnalyticsCharts';
 import { Flame, Sparkles } from 'lucide-react';
 
-const Dashboard = ({ currentPhase }) => {
+const Dashboard = ({ currentPhase, lastLogUpdate }) => {
   const phaseDescriptions = {
     'PHASE_1': 'Phase 1: Rapid Weight Loss (Strict Carbs & Fasting)',
     'PHASE_2': 'Phase 2: Gradual Reintroduction (Testing PFT Limits)',
@@ -43,7 +43,7 @@ const Dashboard = ({ currentPhase }) => {
       </div>
 
       {/* Reversal Analytics Chart Component */}
-      <AnalyticsCharts />
+      <AnalyticsCharts lastLogUpdate={lastLogUpdate} />
     </div>
   );
 };

@@ -1,23 +1,45 @@
 const mealPlanService = require('../services/mealPlanService');
 
 /**
- * GET /api/meal-plan/:userId
+ * Resolves the appropriate target user ID based on authentication status and request parameters.
+ */
+const resolveTargetUserId = (req) => {
+  const paramId = req.params?.userId;
+
+  if (req.user) {
+    // Authenticated: map 'me', 'mock-user-id' (guest fallback), or empty param to the user's own ID
+    if (!paramId || paramId === 'me' || paramId === 'mock-user-id') {
+      return { targetUserId: req.user.userId, isAuthorized: true };
+    }
+    // Authenticated user accessing another user's plan: only ADMIN permitted
+    if (req.user.userId !== paramId && req.user.role !== 'ADMIN') {
+      return { targetUserId: paramId, isAuthorized: false };
+    }
+    return { targetUserId: paramId, isAuthorized: true };
+  }
+
+  // Guest / unauthenticated: allow sample plan preview via 'mock-user-id' or 'guest'
+  const guestId = paramId && paramId !== 'me' ? paramId : 'mock-user-id';
+  return { targetUserId: guestId, isAuthorized: true };
+};
+
+/**
+ * GET /api/meal-plan or /api/meal-plan/:userId
  * Returns the existing weekly meal plan. If none exists, generates one automatically.
  */
 const getWeeklyMealPlan = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { targetUserId, isAuthorized } = resolveTargetUserId(req);
 
-    // Patients can only access their own meal plan; admins can see any
-    if (req.user.userId !== userId && req.user.role !== 'ADMIN') {
+    if (!isAuthorized) {
       return res.status(403).json({ error: 'Unauthorized to access this meal plan' });
     }
 
-    let mealPlan = await mealPlanService.getWeeklyMealPlan(userId);
+    let mealPlan = await mealPlanService.getWeeklyMealPlan(targetUserId);
 
     // Auto-generate if no plan exists yet
     if (!mealPlan || mealPlan.length === 0) {
-      mealPlan = await mealPlanService.generateWeeklyMealPlan(userId);
+      mealPlan = await mealPlanService.generateWeeklyMealPlan(targetUserId);
     }
 
     res.status(200).json({ mealPlan });
@@ -29,19 +51,18 @@ const getWeeklyMealPlan = async (req, res) => {
 };
 
 /**
- * POST /api/meal-plan/:userId/generate
+ * POST /api/meal-plan/generate or /api/meal-plan/:userId/generate
  * Explicitly triggers a fresh meal plan generation, replacing any existing plan.
- * Separated from GET so the service worker can cache GET without caching generate calls.
  */
 const generateMealPlan = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { targetUserId, isAuthorized } = resolveTargetUserId(req);
 
-    if (req.user.userId !== userId && req.user.role !== 'ADMIN') {
+    if (!isAuthorized) {
       return res.status(403).json({ error: 'Unauthorized to generate this meal plan' });
     }
 
-    const mealPlan = await mealPlanService.generateWeeklyMealPlan(userId);
+    const mealPlan = await mealPlanService.generateWeeklyMealPlan(targetUserId);
     res.status(201).json({ mealPlan, message: 'New 7-day meal plan generated successfully!' });
   } catch (error) {
     console.error('Error in generateMealPlan:', error);

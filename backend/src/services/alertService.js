@@ -32,7 +32,7 @@ const hasHighRiskMedication = (medications) => {
 
 /**
  * Creates a hypo alert record in the database and optionally sends an email
- * to the configured ALERT_EMAIL_TO address.
+ * to the configured ALERT_EMAIL_TO address. Triggered when glucose <= 4.0 mmol/L.
  */
 const createHypoAlert = async (userId, glucoseVal) => {
   try {
@@ -41,7 +41,7 @@ const createHypoAlert = async (userId, glucoseVal) => {
         patientId: userId,
         type: 'HYPO',
         glucoseVal,
-        message: `Patient glucose logged at ${glucoseVal} mmol/L — below the safe threshold of 4.0 mmol/L. Immediate clinical review recommended.`,
+        message: `Hypoglycemia Alert: Patient glucose logged at ${glucoseVal} mmol/L (<= 4.0 mmol/L). Patient instructed on Rule of 15 (take 15g fast-acting sugar, retest in 15 mins). Clinical review recommended.`,
       },
     });
 
@@ -52,6 +52,29 @@ const createHypoAlert = async (userId, glucoseVal) => {
   } catch (err) {
     // Alert creation must never crash the main log submission
     console.error('[AlertService] Failed to create hypo alert:', err.message);
+  }
+};
+
+/**
+ * Creates a hyper alert record in the database and optionally sends an email
+ * to the configured ALERT_EMAIL_TO address. Triggered when glucose >= 11.1 mmol/L.
+ */
+const createHyperAlert = async (userId, glucoseVal) => {
+  try {
+    await prisma.alert.create({
+      data: {
+        patientId: userId,
+        type: 'HYPER',
+        glucoseVal,
+        message: `Hyperglycemia Risk Alert: Patient glucose logged at ${glucoseVal} mmol/L (>= 11.1 mmol/L). High glucose risk flagged; hydration and clinical review recommended.`,
+      },
+    });
+
+    if (process.env.SMTP_HOST && process.env.ALERT_EMAIL_TO) {
+      await sendHyperEmail(userId, glucoseVal);
+    }
+  } catch (err) {
+    console.error('[AlertService] Failed to create hyper alert:', err.message);
   }
 };
 
@@ -140,6 +163,38 @@ const sendPhasePendingEmail = async (userId, nextPhase) => {
   }
 };
 
+/**
+ * Sends a hyper alert email using nodemailer.
+ */
+const sendHyperEmail = async (userId, glucoseVal) => {
+  try {
+    if (!nodemailer) {
+      console.warn('[AlertService] nodemailer not installed; skipping email dispatch.');
+      return;
+    }
+    const patient = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    const transporter = createTransporter();
+    await transporter.sendMail({
+      from: `"DMR Alert System" <${process.env.SMTP_USER}>`,
+      to: process.env.ALERT_EMAIL_TO,
+      subject: `⚠️ HYPERGLYCEMIA ALERT — Patient glucose ${glucoseVal} mmol/L`,
+      html: `
+        <h2 style="color:#ea580c">Hyperglycemia Risk Alert</h2>
+        <p>A patient under your supervision has logged a critically high blood glucose reading.</p>
+        <table>
+          <tr><td><strong>Patient:</strong></td><td>${patient?.email || userId}</td></tr>
+          <tr><td><strong>Glucose:</strong></td><td style="color:#ea580c;font-weight:bold">${glucoseVal} mmol/L (>= 11.1)</td></tr>
+          <tr><td><strong>Time:</strong></td><td>${new Date().toLocaleString()}</td></tr>
+        </table>
+        <p>Please review this patient's recent logs, check hydration and carbohydrate adherence, and contact them as appropriate.</p>
+        <p style="color:#6b7280;font-size:12px">Digital Metabolic Reversal System — Kenya</p>
+      `,
+    });
+  } catch (err) {
+    console.error('[AlertService] Failed to send hyper email:', err.message);
+  }
+};
+
 const createTransporter = () =>
   nodemailer.createTransporter({
     host: process.env.SMTP_HOST,
@@ -151,4 +206,4 @@ const createTransporter = () =>
     },
   });
 
-module.exports = { createHypoAlert, createPhasePendingAlert, hasHighRiskMedication };
+module.exports = { createHypoAlert, createHyperAlert, createPhasePendingAlert, hasHighRiskMedication };

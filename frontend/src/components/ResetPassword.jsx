@@ -134,7 +134,7 @@ const ResetPassword = () => {
           </button>
 
           <div className="text-center pt-2">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-brand font-semibold">
+            <Link to="/login" className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-brand font-semibold">
               <ArrowLeft size={14} /> Back to Sign In
             </Link>
           </div>

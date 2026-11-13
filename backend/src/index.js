@@ -7,6 +7,7 @@ require('dotenv').config();
 const authController = require('./controllers/authController');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5000;
 
 // Security Middleware (Crucial for handling sensitive health data)
@@ -23,6 +24,7 @@ const limiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per 15 minutes
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 app.use(limiter);
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Leaf, RefreshCw, ChevronLeft, ChevronRight, Utensils, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Leaf, RefreshCw, ChevronLeft, ChevronRight, Utensils, AlertCircle, Info, LogIn } from 'lucide-react';
 import ShoppingList from './ShoppingList';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,7 +14,7 @@ const CARB_BADGE_COLOR = (carbs) => {
 };
 
 const WeeklyMealPlan = () => {
-  const { user, authFetch } = useAuth();
+  const { user, authFetch, loading: authLoading } = useAuth();
   const [mealPlan, setMealPlan] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -23,6 +24,7 @@ const WeeklyMealPlan = () => {
   const targetUserId = user?.id || 'mock-user-id';
 
   const fetchMealPlan = useCallback(async () => {
+    if (authLoading) return;
     setLoading(true);
     setError(null);
     try {
@@ -34,11 +36,12 @@ const WeeklyMealPlan = () => {
       const data = await response.json();
       setMealPlan(data.mealPlan || []);
     } catch (err) {
-      setError(err.message);
+      console.error('Fetch meal plan error:', err);
+      setError(err.message || 'Failed to fetch meal plan. Please check backend connection.');
     } finally {
       setLoading(false);
     }
-  }, [targetUserId, authFetch]);
+  }, [targetUserId, authLoading, authFetch]);
 
   const generatePlan = async () => {
     setGenerating(true);
@@ -54,15 +57,18 @@ const WeeklyMealPlan = () => {
       const data = await response.json();
       setMealPlan(data.mealPlan || []);
     } catch (err) {
-      setError(err.message);
+      console.error('Generate meal plan error:', err);
+      setError(err.message || 'Failed to regenerate meal plan.');
     } finally {
       setGenerating(false);
     }
   };
 
   useEffect(() => {
-    fetchMealPlan();
-  }, [fetchMealPlan]);
+    if (!authLoading) {
+      fetchMealPlan();
+    }
+  }, [authLoading, fetchMealPlan]);
 
   const mealsByDay = DAYS.reduce((acc, day) => {
     acc[day] = mealPlan.filter(m => m.dayOfWeek === day);
@@ -76,8 +82,17 @@ const WeeklyMealPlan = () => {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-accent to-brand"></div>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">Weekly Meal Plan</h2>
-            <p className="text-slate-500 text-sm mt-1">Phase-aware, garden-to-plate meals for your week</p>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-bold text-slate-800">Weekly Meal Plan</h2>
+              {!user && (
+                <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold px-2 py-0.5 rounded-full">
+                  Sample Preview
+                </span>
+              )}
+            </div>
+            <p className="text-slate-500 text-sm mt-1">
+              Phase-aware, garden-to-plate meals designed to reduce hepatic and visceral fat
+            </p>
           </div>
           <button
             onClick={generatePlan}
@@ -85,16 +100,48 @@ const WeeklyMealPlan = () => {
             className="inline-flex items-center gap-2 bg-gradient-to-r from-brand to-brand-dark text-white px-5 py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed w-full sm:w-auto justify-center"
           >
             <RefreshCw size={18} className={generating ? 'animate-spin' : ''} />
-            {generating ? 'Generating…' : 'Regenerate Plan'}
+            <span>{generating ? 'Regenerating…' : 'Regenerate Plan'}</span>
           </button>
         </div>
       </div>
 
+      {/* Guest Notice */}
+      {!user && !loading && (
+        <div className="p-4 bg-emerald-50/80 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-emerald-900">
+          <div className="flex items-center gap-2">
+            <Info size={16} className="text-emerald-700 flex-shrink-0" />
+            <span>
+              You are exploring a sample 7-day meal plan. Sign in to customize recipes and link to your actively growing kitchen garden crops.
+            </span>
+          </div>
+          <Link
+            to="/login?portal=patient"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold shadow-sm transition-all whitespace-nowrap flex-shrink-0"
+          >
+            <LogIn size={13} />
+            <span>Sign In to Personalize</span>
+          </Link>
+        </div>
+      )}
+
       {/* Error State */}
       {error && (
-        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 flex items-start gap-3">
-          <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
-          <p className="text-sm font-medium">{error}</p>
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold">{error}</p>
+              <p className="text-xs text-red-600 mt-1">
+                Make sure the backend API is running on port 5000 and accessible.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={fetchMealPlan}
+            className="px-3 py-1.5 text-xs font-bold bg-white text-red-700 border border-red-300 rounded-lg hover:bg-red-50 transition-colors flex-shrink-0"
+          >
+            Retry
+          </button>
         </div>
       )}
 
@@ -123,7 +170,7 @@ const WeeklyMealPlan = () => {
       {!loading && !error && mealPlan.length === 0 && (
         <div className="bg-white/80 backdrop-blur-sm border border-surface-200 rounded-2xl p-12 shadow-sm text-center">
           <Utensils size={48} className="mx-auto text-slate-300 mb-4" />
-          <p className="text-slate-500 text-lg font-medium mb-2">No meal plan yet</p>
+          <p className="text-slate-500 text-lg font-medium mb-2">No meal plan generated yet</p>
           <p className="text-slate-400 text-sm mb-6">Click "Regenerate Plan" to create your personalized 7-day schedule</p>
           <button
             onClick={generatePlan}
@@ -131,7 +178,7 @@ const WeeklyMealPlan = () => {
             className="inline-flex items-center gap-2 bg-gradient-to-r from-brand to-brand-dark text-white px-6 py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-all"
           >
             <RefreshCw size={18} className={generating ? 'animate-spin' : ''} />
-            Create My Plan
+            <span>Create 7-Day Plan</span>
           </button>
         </div>
       )}

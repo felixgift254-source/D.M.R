@@ -1,7 +1,7 @@
 const prismaClient = require('../utils/prismaClient');
 const { analyzeMetabolicProgress } = require('../services/reversalEngine');
 const { encrypt, decrypt } = require('../utils/encryption');
-const { createHypoAlert, createPhasePendingAlert } = require('../services/alertService');
+const { createHypoAlert, createHyperAlert, createPhasePendingAlert } = require('../services/alertService');
 
 const safeDecrypt = (val) => {
   if (!val) return val;
@@ -19,7 +19,11 @@ const safeDecrypt = (val) => {
 const submitLog = async (req, res) => {
   try {
     const { glucose, weight, meal, proportions } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user?.userId || req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
 
     if (!glucose || !weight) {
       return res.status(400).json({ error: 'Glucose and weight are required' });
@@ -59,10 +63,21 @@ const submitLog = async (req, res) => {
       });
     }
 
-    // 3. Fire hypo alert if glucose is critically low
+    // 3. Fire clinical alerts if glucose breaches safe thresholds
     const glucoseNum = parseFloat(glucose);
-    if (glucoseNum < 4.0) {
-      await createHypoAlert(userId, glucoseNum);
+    let alertType = null;
+    let alertInstructions = null;
+
+    if (!isNaN(glucoseNum)) {
+      if (glucoseNum <= 4.0) {
+        await createHypoAlert(userId, glucoseNum);
+        alertType = 'HYPO';
+        alertInstructions = 'Hypoglycemia Alert (<= 4.0 mmol/L): Immediately consume 15g of fast-acting sugar (e.g. 3-4 glucose tablets or 150ml fruit juice). Rest for 15 minutes, then re-test your glucose. Your clinician has been notified.';
+      } else if (glucoseNum >= 11.1) {
+        await createHyperAlert(userId, glucoseNum);
+        alertType = 'HYPER';
+        alertInstructions = 'Hyperglycemia Risk Alert (>= 11.1 mmol/L): Your blood sugar is high. Drink plenty of water to help kidneys flush excess glucose, avoid carbohydrates, rest, and recheck your level. Your clinician has been alerted.';
+      }
     }
 
     // 4. Evaluate Phase Progression
@@ -108,6 +123,14 @@ const submitLog = async (req, res) => {
 
     res.status(201).json({
       message: 'Log saved successfully',
+      log: {
+        glucose: parseFloat(glucose),
+        weight: parseFloat(weight),
+        meal: finalMeal || null,
+        loggedAt: new Date().toISOString()
+      },
+      alertType,
+      alertInstructions,
       nudges: result.nudges,
       newPhase: (!result.requiresDoctorApproval && result.nextPhase !== user.currentPhase) ? result.nextPhase : null,
       disclaimerTriggered: result.disclaimerTriggered,
@@ -122,19 +145,26 @@ const submitLog = async (req, res) => {
 
 const getLogHistory = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user?.userId || req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // Fetch the most recent 60 logs and return in chronological order (oldest to newest)
     const logs = await prismaClient.healthLog.findMany({
       where: { userId },
-      orderBy: { loggedAt: 'asc' },
-      take: 30
+      orderBy: { loggedAt: 'desc' },
+      take: 60
     });
 
-    const history = logs.map(log => ({
-      id: log.id,
-      loggedAt: log.loggedAt,
-      glucose: parseFloat(safeDecrypt(log.glucoseEncrypted)) || 0,
-      weight: parseFloat(safeDecrypt(log.weightEncrypted)) || 0
-    }));
+    const history = logs
+      .map(log => ({
+        id: log.id,
+        loggedAt: log.loggedAt,
+        glucose: parseFloat(safeDecrypt(log.glucoseEncrypted)) || 0,
+        weight: parseFloat(safeDecrypt(log.weightEncrypted)) || 0
+      }))
+      .reverse();
 
     res.json({ history });
   } catch (error) {

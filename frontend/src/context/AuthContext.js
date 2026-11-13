@@ -85,6 +85,7 @@ export const AuthProvider = ({ children }) => {
     if (userData) {
       sessionStorage.setItem('dmr_user_cache', JSON.stringify({
         id: userData.id,
+        email: userData.email,
         role: userData.role,
         currentPhase: userData.currentPhase
       }));

@@ -39,7 +39,7 @@ const setRefreshCookie = (res, refreshToken) => {
 
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body; // Validated by Zod middleware
+    const { email, password, role } = req.body; // Validated by Zod middleware
 
     const existingUser = await prismaClient.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -49,11 +49,13 @@ const register = async (req, res) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
+    const userRole = role === 'DOCTOR' ? 'DOCTOR' : 'PATIENT';
+
     const user = await prismaClient.user.create({
       data: {
         email,
         passwordHash,
-        role: 'PATIENT' // Role is always PATIENT on self-registration; promotion is admin-only
+        role: userRole
       }
     });
 
