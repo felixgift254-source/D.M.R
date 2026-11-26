@@ -140,11 +140,14 @@ describe('LandingPage Component', () => {
       })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole('heading', { level: 4, name: /Sukuma Wiki/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /Terere/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /Managu/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /Lake Victoria Omena/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /Fresh Avocado/i })).toBeInTheDocument();
+    expect(
+      screen.getByAltText(/Variety of healthy choices of protein, vegetables, fruits, and healthy fats in one balanced plate/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Vegetables, Proteins, Fruits & Healthy Fats/i)).toBeInTheDocument();
+    expect(screen.getByText(/Traditional Vegetables/i)).toBeInTheDocument();
+    expect(screen.getByText(/Local Clean Proteins/i)).toBeInTheDocument();
+    expect(screen.getByText(/Healthy Fats & Seeds/i)).toBeInTheDocument();
+    expect(screen.getByText(/Low-Glycemic Fruits/i)).toBeInTheDocument();
   });
 
   test('renders Section 8: Lifestyle habits and Final Action Gateways with Medical Governance', () => {
