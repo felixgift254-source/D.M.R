@@ -6,20 +6,37 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {
         brand: {
           light: '#f0fdfa', // Teal 50
-          DEFAULT: '#0d9488', // Teal 600
-          dark: '#0f766e', // Teal 700
+          DEFAULT: '#0f766e', // Teal 700 - deep calming botanical teal
+          dark: '#115e59', // Teal 800
           accent: '#14b8a6', // Teal 500
+          soft: '#ccfbf1',
         },
         surface: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
+          50: '#faf9f6',  // Warm Alabaster 50
+          100: '#f5f3ef', // Warm Linen 100
+          200: '#ebe7e0', // Soft Sand 200
+          300: '#dcd7cd',
+        },
+        sage: {
+          50: '#f4f7f4',
+          100: '#e6efe8',
+          200: '#d1e1d5',
+          600: '#3d7a54',
+          700: '#2e5d40',
+          800: '#244832',
+        },
+        sand: {
+          50: '#fbfbfa',
+          100: '#f5f3ef',
+          200: '#ebe7e0',
+          500: '#a39887',
+          800: '#524b40',
         }
       },
       animation: {
@@ -38,7 +55,7 @@ module.exports = {
         },
         pulseSoft: {
           '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
+          '50%': { opacity: '0.85' },
         }
       }
     },
