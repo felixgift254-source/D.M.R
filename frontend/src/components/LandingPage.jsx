@@ -193,57 +193,402 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* SECTION 3: HOW ONE GETS AFFECTED (PATHOPHYSIOLOGY & COMPLICATIONS) */}
+        {/* SECTION 3: HOW ONE GETS AFFECTED (PATHOPHYSIOLOGY & COMPLICATIONS) - SIDE BY SIDE WITH ANATOMICAL BODY */}
         <section className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            How a Patient Gets Affected: Progression & Complications
-          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Heading, Clinical Progression Paragraph, & Interactive Organ Selector */}
+            <div className="lg:col-span-7 space-y-6">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                How a Patient Gets Affected: Progression & Complications
+              </h2>
 
-          {/* 1 Comprehensive Paragraph */}
-          <p className="text-base text-slate-600 leading-relaxed">
-            When continuous caloric excess and refined carbohydrate intake exceed a person's individual fat storage capacity, triglycerides accumulate ectopically within the liver and pancreas, inducing severe insulin resistance and silencing the acute first-phase insulin spike required to control post-meal blood sugar. As glucose remains trapped in the bloodstream, patients endure debilitating chronic fatigue, excessive urination (polyuria), unquenchable thirst (polydipsia), and blurred vision. Over time, persistent glucotoxicity and microvascular damage lead to diabetic retinopathy (preventable blindness), nephropathy (kidney failure requiring hemodialysis at KES 9,500 per session), peripheral neuropathy (painful nerve death), non-healing foot ulcers leading to amputations, and a 2- to 4-fold increase in heart attacks and strokes.
-          </p>
+              {/* 1 Comprehensive Paragraph */}
+              <p className="text-base text-slate-600 leading-relaxed">
+                When continuous caloric excess and refined carbohydrate intake exceed a person's individual fat storage capacity, triglycerides accumulate ectopically within the liver and pancreas, inducing severe insulin resistance and silencing the acute first-phase insulin spike required to control post-meal blood sugar. As glucose remains trapped in the bloodstream, patients endure debilitating chronic fatigue, excessive urination (polyuria), unquenchable thirst (polydipsia), and blurred vision. Over time, persistent glucotoxicity and microvascular damage lead to diabetic retinopathy (preventable blindness), nephropathy (kidney failure requiring hemodialysis at KES 9,500 per session), peripheral neuropathy (painful nerve death), non-healing foot ulcers leading to amputations, and a 2- to 4-fold increase in heart attacks and strokes.
+              </p>
 
-          {/* Paired Diagram: Interactive Multi-Organ Anatomical Map */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
-              Multi-Organ Damage Map (Click an Organ System)
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-6">
-              {[
-                { id: 'eyes', label: 'Eyes', icon: <Eye size={16} /> },
-                { id: 'kidneys', label: 'Kidneys', icon: <Droplet size={16} /> },
-                { id: 'nerves', label: 'Nerves', icon: <Zap size={16} /> },
-                { id: 'heart', label: 'Cardiovascular', icon: <Heart size={16} /> },
-                { id: 'feet', label: 'Feet / Ulcers', icon: <Activity size={16} /> }
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setActiveOrgan(item.id)}
-                  className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl text-xs font-bold transition-all ${
-                    activeOrgan === item.id
-                      ? 'bg-rose-600 text-white shadow-md'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </button>
-              ))}
+              {/* Interactive Organ Complication Selector & Detail Card */}
+              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+                <div>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+                    Multi-Organ Damage Map (Click an Organ System)
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    {[
+                      { id: 'eyes', label: 'Eyes', icon: <Eye size={16} /> },
+                      { id: 'kidneys', label: 'Kidneys', icon: <Droplet size={16} /> },
+                      { id: 'nerves', label: 'Nerves', icon: <Zap size={16} /> },
+                      { id: 'heart', label: 'Cardiovascular', icon: <Heart size={16} /> },
+                      { id: 'feet', label: 'Feet / Ulcers', icon: <Activity size={16} /> }
+                    ].map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setActiveOrgan(item.id)}
+                        className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl text-xs font-bold transition-all ${
+                          activeOrgan === item.id
+                            ? 'bg-rose-600 text-white shadow-md'
+                            : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                        }`}
+                      >
+                        {item.icon}
+                        <span>{item.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-rose-50/50 border border-rose-200/60 rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 bg-rose-100/80 px-2.5 py-0.5 rounded-full inline-block">
+                      {organData[activeOrgan].category}
+                    </span>
+                    <h4 className="text-lg font-bold text-slate-900">{organData[activeOrgan].title}</h4>
+                    <p className="text-xs sm:text-sm text-slate-600 max-w-xl">{organData[activeOrgan].impact}</p>
+                  </div>
+                  <div className="bg-white p-3.5 rounded-xl border border-rose-200 text-right sm:text-center w-full sm:w-auto shrink-0">
+                    <p className="text-[10px] text-slate-400 uppercase font-bold">Clinical Impact</p>
+                    <p className="text-xs font-extrabold text-rose-700">{organData[activeOrgan].stat}</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="bg-rose-50/50 border border-rose-200/60 rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 bg-rose-100/80 px-2.5 py-0.5 rounded-full inline-block">
-                  {organData[activeOrgan].category}
-                </span>
-                <h4 className="text-lg font-bold text-slate-900">{organData[activeOrgan].title}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 max-w-xl">{organData[activeOrgan].impact}</p>
-              </div>
-              <div className="bg-white p-3.5 rounded-xl border border-rose-200 text-right sm:text-center w-full sm:w-auto">
-                <p className="text-[10px] text-slate-400 uppercase font-bold">Clinical Impact</p>
-                <p className="text-xs font-extrabold text-rose-700">{organData[activeOrgan].stat}</p>
+            {/* Right Column: Anatomical Image of Human Body with Affected Organs Highlighted */}
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col items-center relative overflow-hidden">
+                <div className="w-full flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    Anatomical Impact Sites
+                  </span>
+                  <span className="text-[11px] font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+                    T2D Target Organs
+                  </span>
+                </div>
+
+                {/* SVG Anatomical Human Body with Highlighted Organs */}
+                <div className="w-full flex justify-center py-2">
+                  <svg
+                    viewBox="0 0 380 500"
+                    className="w-full max-w-[340px] sm:max-w-[380px] h-auto select-none"
+                    aria-label="Human body diagram highlighting organs affected by type 2 diabetes"
+                  >
+                    <defs>
+                      <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#F8FAFC" />
+                        <stop offset="100%" stopColor="#E2E8F0" />
+                      </linearGradient>
+                      <filter id="organGlow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                        <feMerge>
+                          <feMergeNode in="blur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    {/* Human Body Silhouette */}
+                    <g id="body-silhouette">
+                      {/* Head */}
+                      <ellipse cx="190" cy="50" rx="23" ry="28" fill="url(#bodyGradient)" stroke="#94A3B8" strokeWidth="2" />
+                      {/* Neck */}
+                      <path d="M 181 76 L 181 92 L 199 92 L 199 76 Z" fill="url(#bodyGradient)" stroke="#94A3B8" strokeWidth="2" />
+                      {/* Torso, Arms & Lower Body Contour */}
+                      <path
+                        d="M 181 92
+                           C 165 94, 142 102, 128 114
+                           C 120 122, 116 148, 112 186
+                           C 108 226, 104 266, 102 290
+                           C 100 298, 110 300, 114 294
+                           C 118 266, 122 226, 128 186
+                           C 130 170, 136 156, 146 152
+                           C 150 168, 154 196, 158 220
+                           C 152 236, 146 256, 144 286
+                           C 142 324, 146 364, 148 404
+                           C 150 428, 146 450, 140 458
+                           C 138 462, 148 466, 154 464
+                           C 162 460, 166 444, 168 418
+                           C 170 376, 172 328, 178 285
+                           C 184 274, 188 272, 190 272
+                           C 192 272, 196 274, 202 285
+                           C 208 328, 210 376, 212 418
+                           C 214 444, 218 460, 226 464
+                           C 232 466, 242 462, 240 458
+                           C 234 450, 230 428, 232 404
+                           C 234 364, 238 324, 236 286
+                           C 234 256, 228 236, 222 220
+                           C 226 196, 230 168, 234 152
+                           C 244 156, 250 170, 252 186
+                           C 258 226, 262 266, 266 294
+                           C 270 300, 280 298, 278 290
+                           C 276 266, 272 226, 268 186
+                           C 264 148, 260 122, 252 114
+                           C 238 102, 215 94, 199 92
+                           Z"
+                        fill="url(#bodyGradient)"
+                        stroke="#94A3B8"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                      />
+
+                      {/* Internal Anatomical Skeleton & Rib Guidance */}
+                      <line x1="190" y1="105" x2="190" y2="180" stroke="#CBD5E1" strokeWidth="2" strokeDasharray="3 3" />
+                      <path d="M 174 125 Q 190 135 206 125" fill="none" stroke="#CBD5E1" strokeWidth="1.5" />
+                      <path d="M 170 145 Q 190 156 210 145" fill="none" stroke="#CBD5E1" strokeWidth="1.5" />
+                      <path d="M 168 165 Q 190 176 212 165" fill="none" stroke="#CBD5E1" strokeWidth="1.5" />
+
+                      {/* Liver & Pancreas Ectopic Fat Root Cause Origin */}
+                      <path
+                        d="M 166 180 C 168 172, 184 170, 188 180 C 188 186, 172 190, 166 180 Z"
+                        fill="#FDE68A"
+                        fillOpacity="0.5"
+                        stroke="#F59E0B"
+                        strokeWidth="1"
+                        strokeDasharray="2 2"
+                      />
+                      <path
+                        d="M 186 190 C 194 186, 204 190, 206 195 C 200 198, 190 196, 186 190 Z"
+                        fill="#FDE68A"
+                        fillOpacity="0.6"
+                        stroke="#F59E0B"
+                        strokeWidth="1"
+                        strokeDasharray="2 2"
+                      />
+
+                      {/* Spinal Column & Peripheral Neural Tracks */}
+                      <line x1="190" y1="92" x2="190" y2="265" stroke="#CBD5E1" strokeWidth="2" strokeDasharray="2 2" />
+                      <path d="M 186 270 C 182 310, 174 350, 168 400" fill="none" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="3 3" />
+                      <path d="M 194 270 C 198 310, 206 350, 212 400" fill="none" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="3 3" />
+                    </g>
+
+                    {/* ========================================================
+                        AFFECTED ORGAN HIGHLIGHTS & CONNECTORS
+                        ======================================================== */}
+
+                    {/* 1. EYES (Diabetic Retinopathy) */}
+                    <g
+                      className="cursor-pointer"
+                      onClick={() => setActiveOrgan('eyes')}
+                      aria-label="Diagram marker: Retinopathy"
+                    >
+                      {/* Bilateral Retinal Nodes */}
+                      <circle cx="183" cy="46" r="3" fill="#E11D48" />
+                      <circle cx="197" cy="46" r="3" fill="#E11D48" />
+                      {activeOrgan === 'eyes' && (
+                        <>
+                          <circle cx="183" cy="46" r="10" fill="#E11D48" fillOpacity="0.25" className="animate-ping" />
+                          <circle cx="197" cy="46" r="10" fill="#E11D48" fillOpacity="0.25" className="animate-ping" />
+                          <circle cx="190" cy="46" r="16" fill="none" stroke="#E11D48" strokeWidth="1.5" strokeDasharray="3 3" />
+                        </>
+                      )}
+                      {/* Leader Line to Left Callout */}
+                      <line
+                        x1="183"
+                        y1="46"
+                        x2="110"
+                        y2="46"
+                        stroke={activeOrgan === 'eyes' ? '#E11D48' : '#CBD5E1'}
+                        strokeWidth={activeOrgan === 'eyes' ? 2 : 1}
+                        strokeDasharray={activeOrgan === 'eyes' ? 'none' : '3 3'}
+                      />
+                    </g>
+
+                    {/* 2. HEART (Cardiovascular Disease) */}
+                    <g
+                      className="cursor-pointer"
+                      onClick={() => setActiveOrgan('heart')}
+                      aria-label="Diagram marker: Cardiovascular"
+                    >
+                      {/* Cardiac Node */}
+                      <path
+                        d="M 198 134 C 196 130, 192 130, 190 134 C 188 138, 198 147, 198 147 C 198 147, 208 138, 206 134 C 204 130, 200 130, 198 134 Z"
+                        fill={activeOrgan === 'heart' ? '#E11D48' : '#F43F5E'}
+                      />
+                      {activeOrgan === 'heart' && (
+                        <circle cx="198" cy="138" r="12" fill="#E11D48" fillOpacity="0.3" className="animate-ping" />
+                      )}
+                      {/* Leader Line to Right Callout */}
+                      <line
+                        x1="202"
+                        y1="138"
+                        x2="270"
+                        y2="138"
+                        stroke={activeOrgan === 'heart' ? '#E11D48' : '#CBD5E1'}
+                        strokeWidth={activeOrgan === 'heart' ? 2 : 1}
+                        strokeDasharray={activeOrgan === 'heart' ? 'none' : '3 3'}
+                      />
+                    </g>
+
+                    {/* 3. KIDNEYS (Diabetic Nephropathy) */}
+                    <g
+                      className="cursor-pointer"
+                      onClick={() => setActiveOrgan('kidneys')}
+                      aria-label="Diagram marker: Nephropathy"
+                    >
+                      {/* Bilateral Kidney Bean Shapes */}
+                      <ellipse cx="171" cy="218" rx="5" ry="7" fill={activeOrgan === 'kidneys' ? '#E11D48' : '#FDA4AF'} />
+                      <ellipse cx="209" cy="218" rx="5" ry="7" fill={activeOrgan === 'kidneys' ? '#E11D48' : '#FDA4AF'} />
+                      {activeOrgan === 'kidneys' && (
+                        <>
+                          <circle cx="171" cy="218" r="10" fill="#E11D48" fillOpacity="0.25" className="animate-ping" />
+                          <circle cx="209" cy="218" r="10" fill="#E11D48" fillOpacity="0.25" className="animate-ping" />
+                        </>
+                      )}
+                      {/* Leader Line to Left Callout */}
+                      <line
+                        x1="171"
+                        y1="218"
+                        x2="110"
+                        y2="218"
+                        stroke={activeOrgan === 'kidneys' ? '#E11D48' : '#CBD5E1'}
+                        strokeWidth={activeOrgan === 'kidneys' ? 2 : 1}
+                        strokeDasharray={activeOrgan === 'kidneys' ? 'none' : '3 3'}
+                      />
+                    </g>
+
+                    {/* 4. NERVES (Peripheral Neuropathy) */}
+                    <g
+                      className="cursor-pointer"
+                      onClick={() => setActiveOrgan('nerves')}
+                      aria-label="Diagram marker: Neuropathy"
+                    >
+                      {/* Neural Node */}
+                      <circle cx="202" cy="310" r="5" fill={activeOrgan === 'nerves' ? '#E11D48' : '#F43F5E'} />
+                      {activeOrgan === 'nerves' && (
+                        <circle cx="202" cy="310" r="12" fill="#E11D48" fillOpacity="0.3" className="animate-ping" />
+                      )}
+                      {/* Leader Line to Right Callout */}
+                      <line
+                        x1="202"
+                        y1="310"
+                        x2="270"
+                        y2="310"
+                        stroke={activeOrgan === 'nerves' ? '#E11D48' : '#CBD5E1'}
+                        strokeWidth={activeOrgan === 'nerves' ? 2 : 1}
+                        strokeDasharray={activeOrgan === 'nerves' ? 'none' : '3 3'}
+                      />
+                    </g>
+
+                    {/* 5. FEET / LOWER EXTREMITIES (Foot Ulcers & Amputations) */}
+                    <g
+                      className="cursor-pointer"
+                      onClick={() => setActiveOrgan('feet')}
+                      aria-label="Diagram marker: Ulceration"
+                    >
+                      {/* Foot Ulcer Nodes */}
+                      <circle cx="152" cy="458" r="4.5" fill={activeOrgan === 'feet' ? '#E11D48' : '#FDA4AF'} />
+                      <circle cx="228" cy="458" r="4.5" fill={activeOrgan === 'feet' ? '#E11D48' : '#FDA4AF'} />
+                      {activeOrgan === 'feet' && (
+                        <>
+                          <circle cx="152" cy="458" r="10" fill="#E11D48" fillOpacity="0.3" className="animate-ping" />
+                          <circle cx="228" cy="458" r="10" fill="#E11D48" fillOpacity="0.3" className="animate-ping" />
+                        </>
+                      )}
+                      {/* Leader Line to Left Callout */}
+                      <line
+                        x1="152"
+                        y1="458"
+                        x2="110"
+                        y2="458"
+                        stroke={activeOrgan === 'feet' ? '#E11D48' : '#CBD5E1'}
+                        strokeWidth={activeOrgan === 'feet' ? 2 : 1}
+                        strokeDasharray={activeOrgan === 'feet' ? 'none' : '3 3'}
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                {/* Callout Badges Positioned Around the Body Diagram */}
+                <div className="w-full grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-slate-100 text-[11px]">
+                  <button
+                    type="button"
+                    onClick={() => setActiveOrgan('eyes')}
+                    aria-label="Diagram marker: Retinopathy"
+                    className={`p-2 rounded-xl border text-left transition-all ${
+                      activeOrgan === 'eyes'
+                        ? 'border-rose-500 bg-rose-50/80 text-rose-900 font-bold shadow-sm'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                      <span className="font-semibold">Eyes</span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 block">Retinopathy</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveOrgan('heart')}
+                    aria-label="Diagram marker: Cardiovascular"
+                    className={`p-2 rounded-xl border text-left transition-all ${
+                      activeOrgan === 'heart'
+                        ? 'border-rose-500 bg-rose-50/80 text-rose-900 font-bold shadow-sm'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                      <span className="font-semibold">Heart</span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 block">Cardiovascular</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveOrgan('kidneys')}
+                    aria-label="Diagram marker: Nephropathy"
+                    className={`p-2 rounded-xl border text-left transition-all ${
+                      activeOrgan === 'kidneys'
+                        ? 'border-rose-500 bg-rose-50/80 text-rose-900 font-bold shadow-sm'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                      <span className="font-semibold">Kidneys</span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 block">Nephropathy</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveOrgan('nerves')}
+                    aria-label="Diagram marker: Neuropathy"
+                    className={`p-2 rounded-xl border text-left transition-all ${
+                      activeOrgan === 'nerves'
+                        ? 'border-rose-500 bg-rose-50/80 text-rose-900 font-bold shadow-sm'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                      <span className="font-semibold">Nerves</span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 block">Neuropathy</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveOrgan('feet')}
+                    aria-label="Diagram marker: Ulceration"
+                    className={`col-span-2 p-2 rounded-xl border text-left transition-all ${
+                      activeOrgan === 'feet'
+                        ? 'border-rose-500 bg-rose-50/80 text-rose-900 font-bold shadow-sm'
+                        : 'border-slate-200 bg-slate-50/70 text-slate-700 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                      <span className="font-semibold">Feet & Extremities</span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 block">Non-healing ulcers, peripheral ischemia, and amputation risk</span>
+                  </button>
+                </div>
+
+                <p className="text-[11px] text-slate-500 text-center mt-3 leading-relaxed">
+                  Chronic glucotoxicity and ectopic fat cause widespread microvascular and macrovascular cellular destruction.
+                </p>
               </div>
             </div>
           </div>
