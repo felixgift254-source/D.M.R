@@ -60,6 +60,11 @@ describe('LandingPage Component', () => {
       })
     ).toBeInTheDocument();
 
+    // Check anatomical human body diagram is rendered
+    expect(
+      screen.getByLabelText(/Human body diagram highlighting organs affected by type 2 diabetes/i)
+    ).toBeInTheDocument();
+
     // Check interactive organ buttons
     const kidneysButton = screen.getByRole('button', { name: /Kidneys/i });
     expect(kidneysButton).toBeInTheDocument();
@@ -71,6 +76,11 @@ describe('LandingPage Component', () => {
     const eyesButton = screen.getByRole('button', { name: /Eyes/i });
     fireEvent.click(eyesButton);
     expect(screen.getByRole('heading', { level: 4, name: /Diabetic Retinopathy/i })).toBeInTheDocument();
+
+    // Check clicking diagram marker on human body
+    const neuroMarker = screen.getByRole('button', { name: /Diagram marker: Neuropathy/i });
+    fireEvent.click(neuroMarker);
+    expect(screen.getByRole('heading', { level: 4, name: /Peripheral Neuropathy/i })).toBeInTheDocument();
   });
 
   test('renders Section 4: Medications and limitations comparison', () => {
