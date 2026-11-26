@@ -141,12 +141,8 @@ describe('LandingPage Component', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByAltText(/Local East African whole foods featuring fresh tilapia, beef, sukuma wiki greens, and green bananas/i)
+      screen.getByAltText(/Array of healthy local foods: leafy vegetables, lean proteins, and low-glycemic fruits/i)
     ).toBeInTheDocument();
-    expect(screen.getByText(/Sukuma Wiki & Greens/i)).toBeInTheDocument();
-    expect(screen.getByText(/Tilapia & Lean Beef/i)).toBeInTheDocument();
-    expect(screen.getByText(/Green Bananas & Roots/i)).toBeInTheDocument();
-    expect(screen.getByText(/Healthy Fats & Avocado/i)).toBeInTheDocument();
   });
 
   test('renders Section 8: Lifestyle habits and Final Action Gateways with Medical Governance', () => {

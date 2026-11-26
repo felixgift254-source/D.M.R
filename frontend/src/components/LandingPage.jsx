@@ -473,43 +473,15 @@ export default function LandingPage() {
               The DMR nutritional framework is built entirely upon accessible, nourishing whole foods local to Kenya and East Africa. Patients thrive on traditional leafy greens like *sukuma wiki* (collard greens), *terere* (amaranth leaves), *managu* (African nightshade), *kunde* (cowpea leaves), and *sageti*, which supply essential minerals, antioxidants, and digestive fiber without spiking blood sugar. These are paired with healthy local proteins and fats such as Lake Victoria *omena*, fresh *tilapia*, free-range indigenous chicken (*kuku kienyeji*), eggs, and avocados, providing satisfying, affordable, and culturally rooted meals that support steady, drug-free blood sugar control.
             </p>
 
-            {/* Single Picture showcasing local East African healthy whole foods */}
+            {/* Picture showcasing an array of local East African whole foods: vegetables, proteins, and low-glycemic fruits */}
             <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
               <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full overflow-hidden bg-slate-100">
                 <img
-                  src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?auto=format&fit=crop&w=1400&q=80"
-                  alt="Local East African whole foods featuring fresh tilapia, beef, sukuma wiki greens, and green bananas"
+                  src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1400&q=80"
+                  alt="Array of healthy local foods: leafy vegetables, lean proteins, and low-glycemic fruits"
                   className="w-full h-full object-cover object-center"
                   loading="lazy"
                 />
-              </div>
-
-              {/* 4 local food categories below the picture */}
-              <div className="p-6 grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50/70 border-t border-slate-100">
-                <div className="space-y-1">
-                  <span className="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
-                    <span>🥬</span> Sukuma Wiki & Greens
-                  </span>
-                  <p className="text-xs text-slate-600">Sukuma wiki, Terere, Managu, Kunde, and Sageti greens.</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs font-extrabold text-teal-800 flex items-center gap-1.5">
-                    <span>🐟</span> Tilapia & Lean Beef
-                  </span>
-                  <p className="text-xs text-slate-600">Fresh Lake Victoria tilapia, pasture-raised beef, and kienyeji eggs.</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs font-extrabold text-amber-800 flex items-center gap-1.5">
-                    <span>🍌</span> Green Bananas & Roots
-                  </span>
-                  <p className="text-xs text-slate-600">Green bananas (Matoke), cassava, arrowroots (nduma), and wimbi.</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs font-extrabold text-cyan-800 flex items-center gap-1.5">
-                    <span>🥑</span> Healthy Fats & Avocado
-                  </span>
-                  <p className="text-xs text-slate-600">Fresh Kenyan avocado (parachichi), roasted groundnuts, and seeds.</p>
-                </div>
               </div>
             </div>
           </section>
