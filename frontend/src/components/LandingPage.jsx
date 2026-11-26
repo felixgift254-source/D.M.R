@@ -73,7 +73,7 @@ export default function LandingPage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300/60 text-emerald-900 text-xs font-bold tracking-wide uppercase shadow-sm">
             <Sparkles size={14} className="text-emerald-600" />
-            <span>Digital Metabolic Reversal Platform</span>
+            <span>Diabetes (II) metabolic reversal platform</span>
           </div>
 
           {/* Headline */}

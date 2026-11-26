@@ -15,7 +15,7 @@ describe('LandingPage Component', () => {
   test('renders Section 1: Executive summary at top and action buttons', () => {
     renderLandingPage();
 
-    expect(screen.getByText(/Digital Metabolic Reversal Platform/i)).toBeInTheDocument();
+    expect(screen.getByText(/Diabetes \(II\) metabolic reversal platform/i)).toBeInTheDocument();
     expect(
       screen.getByRole('heading', {
         level: 1,
