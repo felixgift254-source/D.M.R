@@ -141,13 +141,12 @@ describe('LandingPage Component', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByAltText(/Variety of healthy choices of protein, vegetables, fruits, and healthy fats in one balanced plate/i)
+      screen.getByAltText(/Local East African whole foods featuring fresh tilapia, beef, sukuma wiki greens, and green bananas/i)
     ).toBeInTheDocument();
-    expect(screen.getByText(/Vegetables, Proteins, Fruits & Healthy Fats/i)).toBeInTheDocument();
-    expect(screen.getByText(/Traditional Vegetables/i)).toBeInTheDocument();
-    expect(screen.getByText(/Local Clean Proteins/i)).toBeInTheDocument();
-    expect(screen.getByText(/Healthy Fats & Seeds/i)).toBeInTheDocument();
-    expect(screen.getByText(/Low-Glycemic Fruits/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sukuma Wiki & Greens/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tilapia & Lean Beef/i)).toBeInTheDocument();
+    expect(screen.getByText(/Green Bananas & Roots/i)).toBeInTheDocument();
+    expect(screen.getByText(/Healthy Fats & Avocado/i)).toBeInTheDocument();
   });
 
   test('renders Section 8: Lifestyle habits and Final Action Gateways with Medical Governance', () => {
