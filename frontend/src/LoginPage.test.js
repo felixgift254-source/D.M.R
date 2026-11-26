@@ -34,7 +34,7 @@ describe('LoginPage Component', () => {
     renderLoginPage();
 
     expect(screen.getByRole('heading', { level: 2, name: /Patient Sign In/i })).toBeInTheDocument();
-    expect(screen.getByText(/Personal Reversal Tracker/i)).toBeInTheDocument();
+    expect(screen.getByText(/Personal Reversal Tracker for Type 2 Diabetes/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Sign In to Patient Portal/i })).toBeInTheDocument();
   });
 

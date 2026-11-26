@@ -56,7 +56,7 @@ const ClinicianNavigation = () => {
           {/* Right: Switch to Patient Portal & Clinician User info */}
           <div className="flex items-center gap-3 flex-shrink-0">
             <Link
-              to="/"
+              to="/patient"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-700/50 rounded-xl transition-all"
               title="Open Patient Portal view"
             >

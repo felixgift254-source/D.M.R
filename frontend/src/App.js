@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import LandingPage from './components/LandingPage';
 import PortalHeader from './components/PortalHeader';
 import PatientNavigation from './components/PatientNavigation';
 import ClinicianNavigation from './components/ClinicianNavigation';
@@ -92,8 +93,12 @@ function AppContent() {
       <PortalHeader />
 
       <Routes>
+        {/* === Public Landing Page === */}
+        <Route path="/" element={<LandingPage />} />
+
         {/* === Portal 1: Patient Portal Routes === */}
         <Route
+          path="/patient"
           element={
             <PatientPortalLayout
               currentPhase={currentPhase}
@@ -103,7 +108,7 @@ function AppContent() {
           }
         >
           <Route
-            path="/"
+            index
             element={
               <div className="space-y-8">
                 <Dashboard currentPhase={currentPhase} lastLogUpdate={lastLogUpdate} />
@@ -111,6 +116,23 @@ function AppContent() {
               </div>
             }
           />
+          <Route path="education" element={<EduHub />} />
+          <Route path="meals" element={<WeeklyMealPlan />} />
+          <Route path="garden" element={<KitchenGarden />} />
+          <Route path="community" element={<Community />} />
+          <Route path="profile" element={<UserProfile />} />
+        </Route>
+
+        {/* Backward-compatible top-level shortcuts */}
+        <Route
+          element={
+            <PatientPortalLayout
+              currentPhase={currentPhase}
+              showDisclaimer={showDisclaimer}
+              setShowDisclaimer={setShowDisclaimer}
+            />
+          }
+        >
           <Route path="/education" element={<EduHub />} />
           <Route path="/meals" element={<WeeklyMealPlan />} />
           <Route path="/garden" element={<KitchenGarden />} />

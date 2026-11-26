@@ -59,7 +59,7 @@ const ClinicianGuard = ({ children }) => {
           </Link>
 
           <Link
-            to="/"
+            to="/patient"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-surface-100 hover:bg-surface-200 text-slate-700 font-semibold rounded-xl border border-surface-200 transition-colors"
           >
             <HeartPulse size={16} className="text-emerald-600" />
@@ -97,7 +97,7 @@ const ClinicianGuard = ({ children }) => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
-            to="/"
+            to="/patient"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl shadow-md transition-all"
           >
             <HeartPulse size={18} />

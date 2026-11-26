@@ -36,7 +36,7 @@ describe('Portal Separation & Navigation', () => {
     const clinicianLink = screen.getByRole('link', { name: /Clinician Portal/i });
 
     expect(patientLink).toBeInTheDocument();
-    expect(patientLink).toHaveAttribute('href', '/');
+    expect(patientLink).toHaveAttribute('href', '/patient');
     expect(clinicianLink).toBeInTheDocument();
     expect(clinicianLink).toHaveAttribute('href', '/doctor');
   });
@@ -50,7 +50,7 @@ describe('Portal Separation & Navigation', () => {
       </AuthProvider>
     );
 
-    expect(screen.getByRole('link', { name: /Dashboard/i })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: /Dashboard/i })).toHaveAttribute('href', '/patient');
     expect(screen.getByRole('link', { name: /Meals & Diet/i })).toHaveAttribute('href', '/meals');
     expect(screen.getByRole('link', { name: /Kitchen Garden/i })).toHaveAttribute('href', '/garden');
     expect(screen.getByRole('link', { name: /EduHub/i })).toHaveAttribute('href', '/education');
@@ -72,7 +72,7 @@ describe('Portal Separation & Navigation', () => {
 
     expect(screen.getByText(/DMR Clinical Care/i)).toBeInTheDocument();
     expect(screen.getByText(/Provider Portal/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Patient Portal/i })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: /Patient Portal/i })).toHaveAttribute('href', '/patient');
   });
 
   test('ClinicianGuard blocks unauthenticated users and shows login prompt', async () => {
@@ -95,6 +95,6 @@ describe('Portal Separation & Navigation', () => {
       'href',
       '/login?portal=doctor&redirect=/doctor'
     );
-    expect(screen.getByRole('link', { name: /Return to Patient Portal/i })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: /Return to Patient Portal/i })).toHaveAttribute('href', '/patient');
   });
 });

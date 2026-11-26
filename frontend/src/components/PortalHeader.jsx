@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HeartPulse, Stethoscope, LogOut, LogIn, UserCheck, Shield } from 'lucide-react';
+import { HeartPulse, Stethoscope, LogOut, LogIn, UserCheck, Shield, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const PortalHeader = () => {
@@ -8,6 +8,14 @@ const PortalHeader = () => {
   const { user, logout } = useAuth();
 
   const isDoctorRoute = location.pathname.startsWith('/doctor');
+  const isPatientRoute =
+    location.pathname.startsWith('/patient') ||
+    location.pathname === '/meals' ||
+    location.pathname === '/garden' ||
+    location.pathname === '/education' ||
+    location.pathname === '/community' ||
+    location.pathname === '/profile';
+  const isOverviewRoute = location.pathname === '/';
   const isLoginRoute = location.pathname === '/login';
 
   return (
@@ -19,16 +27,29 @@ const PortalHeader = () => {
             Portals:
           </span>
 
-          {/* Patient Portal Pill */}
+          {/* Overview / Landing Page Pill */}
           <Link
             to="/"
             className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold transition-all ${
-              !isDoctorRoute && !isLoginRoute
+              isOverviewRoute
+                ? 'bg-slate-700 text-white shadow-sm ring-1 ring-slate-500'
+                : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Sparkles size={13} />
+            <span>Overview</span>
+          </Link>
+
+          {/* Patient Portal Pill */}
+          <Link
+            to="/patient"
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold transition-all ${
+              isPatientRoute
                 ? 'bg-emerald-500 text-white shadow-sm ring-1 ring-emerald-400/40'
                 : 'text-slate-300 hover:text-white hover:bg-slate-800'
             }`}
           >
-            <HeartPulse size={14} className={!isDoctorRoute && !isLoginRoute ? 'animate-pulse' : ''} />
+            <HeartPulse size={14} className={isPatientRoute ? 'animate-pulse' : ''} />
             <span>Patient Portal</span>
           </Link>
 

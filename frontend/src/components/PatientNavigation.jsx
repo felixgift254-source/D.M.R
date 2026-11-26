@@ -8,7 +8,7 @@ const PatientNavigation = () => {
   const { user, logout } = useAuth();
 
   const navItems = [
-    { path: '/', label: 'Dashboard', icon: <Activity size={18} /> },
+    { path: '/patient', label: 'Dashboard', icon: <Activity size={18} /> },
     { path: '/meals', label: 'Meals & Diet', icon: <Utensils size={18} /> },
     { path: '/garden', label: 'Kitchen Garden', icon: <Leaf size={18} /> },
     { path: '/education', label: 'EduHub', icon: <BookOpen size={18} /> },
@@ -21,7 +21,7 @@ const PatientNavigation = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center h-16 gap-3">
           {/* Brand Logo & Portal Identifier */}
-          <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
+          <Link to="/patient" className="flex items-center gap-2 group flex-shrink-0">
             <div className="p-2 bg-gradient-to-tr from-brand to-emerald-500 text-white rounded-xl shadow-sm group-hover:scale-105 transition-transform">
               <HeartPulse size={20} />
             </div>

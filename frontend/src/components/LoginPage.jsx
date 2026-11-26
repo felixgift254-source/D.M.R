@@ -220,7 +220,7 @@ const LoginPage = ({ defaultPortal }) => {
               ) : (
                 <>
                   <Sparkles size={14} />
-                  <span>Personal Reversal Tracker</span>
+                  <span>Personal Reversal Tracker for Type 2 Diabetes</span>
                 </>
               )}
             </div>
