@@ -165,14 +165,14 @@ const LoginPage = ({ defaultPortal }) => {
     <div className="min-h-[calc(100vh-120px)] flex flex-col justify-center items-center py-10 px-4 sm:px-6">
       <div className="w-full max-w-lg space-y-6">
         {/* Portal Switcher Tabs */}
-        <div className="bg-surface-200/80 p-1.5 rounded-2xl flex items-center shadow-inner">
+        <div className="bg-stone-200/60 p-1.5 rounded-2xl flex items-center shadow-inner border border-stone-200/50">
           <button
             type="button"
             onClick={() => handlePortalSwitch('patient')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 ${
               !isDoctorMode
-                ? 'bg-white text-emerald-800 shadow-md ring-1 ring-black/5'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                ? 'bg-white text-emerald-900 shadow-sm ring-1 ring-black/5'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
             }`}
           >
             <HeartPulse size={18} className={!isDoctorMode ? 'text-emerald-600' : 'text-slate-400'} />
@@ -184,8 +184,8 @@ const LoginPage = ({ defaultPortal }) => {
             onClick={() => handlePortalSwitch('doctor')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 ${
               isDoctorMode
-                ? 'bg-slate-900 text-teal-300 shadow-md ring-1 ring-slate-800'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                ? 'bg-slate-800 text-teal-300 shadow-sm ring-1 ring-slate-700'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
             }`}
           >
             <Stethoscope size={18} className={isDoctorMode ? 'text-teal-400' : 'text-slate-400'} />
@@ -194,38 +194,39 @@ const LoginPage = ({ defaultPortal }) => {
         </div>
 
         {/* Main Authentication Card */}
-        <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border border-surface-200 p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-lg border border-stone-200/70 p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
           {/* Header Accent Line */}
           <div
             className={`absolute top-0 left-0 right-0 h-1.5 ${
               isDoctorMode
-                ? 'bg-gradient-to-r from-teal-600 via-cyan-500 to-indigo-600'
-                : 'bg-gradient-to-r from-emerald-500 via-teal-500 to-brand'
+                ? 'bg-gradient-to-r from-teal-700 via-cyan-600 to-indigo-700'
+                : 'bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700'
             }`}
           />
 
           {/* Portal Context Banner */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2"
-              style={{
-                backgroundColor: isDoctorMode ? '#f0fdfa' : '#ecfdf5',
-                color: isDoctorMode ? '#0f766e' : '#047857'
-              }}
+            <div
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-2 border ${
+                isDoctorMode
+                  ? 'bg-teal-50 border-teal-200/60 text-teal-800'
+                  : 'bg-emerald-50 border-emerald-200/60 text-emerald-800'
+              }`}
             >
               {isDoctorMode ? (
                 <>
-                  <ShieldCheck size={14} />
+                  <ShieldCheck size={14} className="text-teal-600" />
                   <span>Clinical Care System</span>
                 </>
               ) : (
                 <>
-                  <Sparkles size={14} />
+                  <Sparkles size={14} className="text-emerald-600" />
                   <span>Personal Reversal Tracker for Type 2 Diabetes</span>
                 </>
               )}
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
               {mode === 'forgot'
                 ? 'Reset Account Password'
                 : mode === 'register'
@@ -237,7 +238,7 @@ const LoginPage = ({ defaultPortal }) => {
                     : 'Patient Sign In'}
             </h2>
 
-            <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed font-normal">
               {mode === 'forgot'
                 ? 'Enter your registered email address to receive password reset instructions'
                 : mode === 'register'
@@ -251,13 +252,13 @@ const LoginPage = ({ defaultPortal }) => {
           </div>
 
           {/* Quick Demo Pre-fill Bar */}
-          <div className="mb-6 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+          <div className="mb-6 p-3 bg-stone-50/80 border border-stone-200/70 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
             <span className="text-slate-500 font-medium">Quick Demo Access:</span>
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => handleFillDemo('patient')}
-                className="flex-1 sm:flex-none px-2.5 py-1.5 rounded-lg bg-emerald-100/70 hover:bg-emerald-200 text-emerald-800 font-semibold transition-colors flex items-center justify-center gap-1"
+                className="flex-1 sm:flex-none px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100/80 text-emerald-800 border border-emerald-200/60 font-semibold transition-colors flex items-center justify-center gap-1 shadow-2xs"
                 title="Use test@example.com (Patient)"
               >
                 <HeartPulse size={13} />
@@ -266,7 +267,7 @@ const LoginPage = ({ defaultPortal }) => {
               <button
                 type="button"
                 onClick={() => handleFillDemo('doctor')}
-                className="flex-1 sm:flex-none px-2.5 py-1.5 rounded-lg bg-teal-100/70 hover:bg-teal-200 text-teal-800 font-semibold transition-colors flex items-center justify-center gap-1"
+                className="flex-1 sm:flex-none px-2.5 py-1.5 rounded-xl bg-teal-50 hover:bg-teal-100/80 text-teal-800 border border-teal-200/60 font-semibold transition-colors flex items-center justify-center gap-1 shadow-2xs"
                 title="Use doctor@example.com (Clinician)"
               >
                 <Stethoscope size={13} />
@@ -280,7 +281,7 @@ const LoginPage = ({ defaultPortal }) => {
             {error && (
               <div
                 role="alert"
-                className="mb-5 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-start gap-3 shadow-sm"
+                className="mb-5 p-4 rounded-2xl bg-rose-50/80 border border-rose-200/80 text-rose-800 text-sm flex items-start gap-3 shadow-sm"
               >
                 <AlertCircle size={20} className="text-rose-600 flex-shrink-0 mt-0.5" />
                 <span className="font-medium">{error}</span>
@@ -290,7 +291,7 @@ const LoginPage = ({ defaultPortal }) => {
             {successInfo && (
               <div
                 role="alert"
-                className="mb-5 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-start gap-3 shadow-sm"
+                className="mb-5 p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 text-emerald-800 text-sm flex items-start gap-3 shadow-sm"
               >
                 <CheckCircle2 size={20} className="text-emerald-600 flex-shrink-0 mt-0.5" />
                 <span className="font-medium">{successInfo}</span>
@@ -323,7 +324,7 @@ const LoginPage = ({ defaultPortal }) => {
                   disabled={loading}
                   required
                   placeholder={isDoctorMode ? 'doctor@clinic.org' : 'patient@example.com'}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 bg-surface-50 focus:bg-white focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none text-sm transition-all disabled:opacity-60"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-300 bg-stone-50/40 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 outline-none text-sm transition-all disabled:opacity-60 text-slate-800"
                 />
               </div>
             </div>
@@ -346,7 +347,7 @@ const LoginPage = ({ defaultPortal }) => {
                         setError(null);
                         setSuccessInfo(null);
                       }}
-                      className="text-xs text-brand font-semibold hover:underline"
+                      className="text-xs text-teal-700 font-semibold hover:underline"
                     >
                       Forgot password?
                     </button>
@@ -364,7 +365,7 @@ const LoginPage = ({ defaultPortal }) => {
                     disabled={loading}
                     required
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-11 py-3 rounded-xl border border-surface-200 bg-surface-50 focus:bg-white focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none text-sm transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-11 py-3 rounded-xl border border-stone-300 bg-stone-50/40 focus:bg-white focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 outline-none text-sm transition-all disabled:opacity-60 text-slate-800"
                   />
                   <button
                     type="button"
@@ -384,7 +385,7 @@ const LoginPage = ({ defaultPortal }) => {
 
             {/* Clinician Registration Role Check */}
             {mode === 'register' && (
-              <div className="p-3 bg-surface-50 border border-surface-200 rounded-xl space-y-2">
+              <div className="p-3 bg-stone-50/70 border border-stone-200/80 rounded-xl space-y-2">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -394,13 +395,13 @@ const LoginPage = ({ defaultPortal }) => {
                       setIsDoctorRole(e.target.checked);
                       setActivePortal(e.target.checked ? 'doctor' : 'patient');
                     }}
-                    className="w-4 h-4 text-teal-600 rounded border-slate-300 focus:ring-teal-500"
+                    className="w-4 h-4 text-teal-600 rounded border-stone-300 focus:ring-teal-500"
                   />
                   <span className="text-xs font-semibold text-slate-700">
                     Register as a Medical Clinician / Doctor
                   </span>
                 </label>
-                <p className="text-[11px] text-slate-500 pl-6">
+                <p className="text-[11px] text-slate-500 pl-6 leading-relaxed">
                   {isDoctorRole
                     ? 'Grants clinician privileges: patient monitoring, encrypted records, and phase advancement reviews.'
                     : 'Standard patient account for personalized 1-2-3 protocol tracking.'}
@@ -416,7 +417,7 @@ const LoginPage = ({ defaultPortal }) => {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 text-brand rounded border-slate-300 focus:ring-brand"
+                    className="w-4 h-4 text-teal-600 rounded border-stone-300 focus:ring-teal-500"
                   />
                   <span>Stay signed in on this device</span>
                 </label>
@@ -429,8 +430,8 @@ const LoginPage = ({ defaultPortal }) => {
               disabled={loading}
               className={`w-full py-3.5 px-4 font-bold text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-70 disabled:active:scale-100 flex justify-center items-center gap-2 mt-4 ${
                 isDoctorMode
-                  ? 'bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 hover:from-teal-600 hover:to-cyan-500'
-                  : 'bg-gradient-to-r from-emerald-600 via-teal-600 to-brand-dark hover:from-emerald-500 hover:to-teal-500'
+                  ? 'bg-gradient-to-r from-teal-800 via-teal-700 to-cyan-700 hover:from-teal-700 hover:to-cyan-600 shadow-teal-900/10'
+                  : 'bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 shadow-teal-700/10'
               }`}
             >
               {loading ? (
@@ -458,7 +459,7 @@ const LoginPage = ({ defaultPortal }) => {
           </form>
 
           {/* Mode Switchers */}
-          <div className="mt-6 pt-5 border-t border-surface-200 text-center text-xs sm:text-sm text-slate-500">
+          <div className="mt-6 pt-5 border-t border-stone-200/70 text-center text-xs sm:text-sm text-slate-500">
             {mode === 'forgot' ? (
               <button
                 type="button"
@@ -467,7 +468,7 @@ const LoginPage = ({ defaultPortal }) => {
                   setError(null);
                   setSuccessInfo(null);
                 }}
-                className="font-bold text-brand hover:underline"
+                className="font-bold text-teal-700 hover:underline"
               >
                 Back to Sign In
               </button>
@@ -481,7 +482,7 @@ const LoginPage = ({ defaultPortal }) => {
                     setError(null);
                     setSuccessInfo(null);
                   }}
-                  className="font-bold text-brand hover:underline"
+                  className="font-bold text-teal-700 hover:underline"
                 >
                   Create an account
                 </button>
@@ -496,7 +497,7 @@ const LoginPage = ({ defaultPortal }) => {
                     setError(null);
                     setSuccessInfo(null);
                   }}
-                  className="font-bold text-brand hover:underline"
+                  className="font-bold text-teal-700 hover:underline"
                 >
                   Sign in instead
                 </button>
@@ -507,17 +508,17 @@ const LoginPage = ({ defaultPortal }) => {
 
         {/* Bottom Navigation Helper */}
         <div className="text-center text-xs text-slate-500 flex items-center justify-center gap-4">
-          <Link to="/" className="hover:text-slate-800 transition-colors flex items-center gap-1">
+          <Link to="/" className="hover:text-slate-800 transition-colors flex items-center gap-1 font-medium">
             <HeartPulse size={14} className="text-emerald-600" />
             <span>Patient Home</span>
           </Link>
           <span>•</span>
-          <Link to="/doctor" className="hover:text-slate-800 transition-colors flex items-center gap-1">
+          <Link to="/doctor" className="hover:text-slate-800 transition-colors flex items-center gap-1 font-medium">
             <Stethoscope size={14} className="text-teal-600" />
             <span>Clinician Care</span>
           </Link>
           <span>•</span>
-          <Link to="/education" className="hover:text-slate-800 transition-colors">
+          <Link to="/education" className="hover:text-slate-800 transition-colors font-medium">
             Protocol Knowledge Base
           </Link>
         </div>
