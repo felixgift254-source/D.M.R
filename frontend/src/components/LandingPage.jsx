@@ -225,18 +225,12 @@ export default function LandingPage() {
 
         {/* SECTION 2: THE SUB-SAHARAN AFRICAN & KENYAN CRISIS */}
         <section className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold uppercase tracking-wider">
-            <AlertTriangle size={14} />
-            <span>Epidemiological Emergency</span>
-          </div>
-
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             The Sub-Saharan Africa & Kenyan Diabetes Crisis
           </h2>
 
-          {/* 1 Comprehensive Paragraph */}
           <p className="text-base text-slate-600 leading-relaxed">
-            Sub-Saharan Africa is confronting the fastest-growing diabetes epidemic in the world, with cases projected by the International Diabetes Federation (IDF) to surge by 129% to 55 million by 2045. In Kenya, national prevalence reaches up to 5% and exceeds 10% in urban centers like Nairobi and Mombasa, propelled by rapid urbanization and the dietary transition from traditional fiber-rich staples to sugary drinks and ultra-processed foods. With over 54% of cases remaining undiagnosed until acute complications manifest, and routine out-of-pocket medical expenses consuming 30% to 50% of household income, diabetes represents a devastating public health and economic crisis for working-age adults across the region.
+            Sub-Saharan Africa faces the world's fastest-growing diabetes crisis, projected by the IDF to surge 129% by 2045. In Kenya, urban prevalence exceeds 10% as diets shift toward sugary drinks and ultra-processed foods. With over 54% of cases undiagnosed and treatment consuming up to half of family income, the disease threatens working-age livelihoods across the region.
           </p>
 
           {/* Paired Diagram: Regional Impact Infographic */}
@@ -268,11 +262,6 @@ export default function LandingPage() {
 
         {/* SECTION 3: HOW ONE GETS AFFECTED (PATHOPHYSIOLOGY & COMPLICATIONS) */}
         <section className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider">
-            <ShieldAlert size={14} />
-            <span>Pathology & Complications</span>
-          </div>
-
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             How a Patient Gets Affected: Progression & Complications
           </h2>
@@ -329,11 +318,6 @@ export default function LandingPage() {
 
         {/* SECTION 4: MEDICATIONS & THEIR LIMITATIONS */}
         <section className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold uppercase tracking-wider">
-            <Pill size={14} className="text-slate-500" />
-            <span>Conventional Management</span>
-          </div>
-
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Medications Used to Manage Diabetes & Their Limitations
           </h2>
@@ -399,10 +383,6 @@ export default function LandingPage() {
             ========================================================================= */}
         <div className="pt-8 border-t border-slate-200">
           <div className="text-center space-y-2 mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
-              <Sparkles size={14} />
-              <span>The Solution</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
               The DMR Pathway to Metabolic Remission
             </h2>
@@ -413,11 +393,6 @@ export default function LandingPage() {
 
           {/* SECTION 5: HOW REVERSAL WORKS (SIMPLIFIED & TRIMMED) */}
           <section className="space-y-6 mb-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold uppercase tracking-wider">
-              <RotateCcw size={14} />
-              <span>The Science in Simple Terms</span>
-            </div>
-
             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               How Reversal Works: Unclogging the Organs
             </h3>
@@ -459,11 +434,6 @@ export default function LandingPage() {
 
           {/* SECTION 6: THE 3-PHASE REMISSION PROTOCOL (PRIORITY SECTION) */}
           <section className="space-y-6 mb-20 bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/50 p-6 sm:p-10 rounded-3xl border-2 border-emerald-200 shadow-sm">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider shadow-sm">
-              <Award size={14} />
-              <span>Core Reversal Solution</span>
-            </div>
-
             <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               The 3-Phase Remission Protocol
             </h3>
@@ -561,11 +531,6 @@ export default function LandingPage() {
 
           {/* SECTION 7: HEALTHY FOODS LOCAL TO EAST AFRICA */}
           <section className="space-y-6 mb-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider">
-              <Leaf size={14} />
-              <span>Nutrition & Remission Foods</span>
-            </div>
-
             <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Healthy Whole Foods Local to East Africa
             </h3>
@@ -597,11 +562,6 @@ export default function LandingPage() {
 
           {/* SECTION 8: DAILY LIFESTYLE HABITS FOR LASTING HEALTH */}
           <section className="space-y-6 mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-bold uppercase tracking-wider">
-              <Activity size={14} />
-              <span>Lifestyle Habits</span>
-            </div>
-
             <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Daily Lifestyle Habits for Lasting Health
             </h3>
@@ -650,9 +610,6 @@ export default function LandingPage() {
           {/* FINAL SECTION: ACTION GATEWAYS & MEDICAL GOVERNANCE */}
           <section className="bg-slate-900 text-slate-100 rounded-3xl p-8 sm:p-12 shadow-xl space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <span className="text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                Begin Your Remission Pathway
-              </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
                 Take Control of Your Metabolic Future
               </h3>

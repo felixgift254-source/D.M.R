@@ -44,7 +44,7 @@ describe('LandingPage Component', () => {
       })
     ).toBeInTheDocument();
 
-    expect(screen.getByText(/Sub-Saharan Africa is confronting the fastest-growing diabetes epidemic/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sub-Saharan Africa faces the world's fastest-growing diabetes crisis/i)).toBeInTheDocument();
     expect(screen.getByText(/129% Surge/i)).toBeInTheDocument();
     expect(screen.getByText(/54%\+ Undiagnosed/i)).toBeInTheDocument();
     expect(screen.getByText(/30%–50%/i)).toBeInTheDocument();
