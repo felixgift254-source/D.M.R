@@ -249,9 +249,9 @@ export default function LandingPage() {
                 Medications Used to Manage Diabetes & Their Limitations
               </h2>
 
-              {/* 1 Comprehensive Paragraph */}
+              {/* 1 Concise Paragraph */}
               <p className="text-base text-slate-600 leading-relaxed font-normal">
-                Conventional diabetes care routinely prescribes Biguanides (Metformin) to suppress liver glucose production, Sulfonylureas (Glimepiride, Glibenclamide) to force beta-cells to secrete more insulin, DPP-4 inhibitors (gliptins) to prolong incretin activity, SGLT2 inhibitors (Empagliflozin) to excrete glucose in urine, and exogenous insulin injections administered via specialized syringes for advanced beta-cell exhaustion. While these pharmacotherapies are vital for preventing acute glycemic emergencies, they only manage circulating blood glucose numbers without addressing the underlying accumulation of ectopic organ fat. As a consequence, patients remain locked into chronic disease management, escalating dosages, and mounting financial strain, underscoring the urgent necessity of a root-cause nutritional intervention under close physician supervision.
+                Conventional diabetes care routinely prescribes Biguanides (Metformin) to suppress liver glucose production, Sulfonylureas (Glimepiride, Glibenclamide) to force beta-cells to secrete more insulin, DPP-4 inhibitors (gliptins) to prolong incretin activity, SGLT2 inhibitors (Empagliflozin) to excrete glucose in urine, and exogenous insulin injections administered via specialized syringes for advanced beta-cell exhaustion.
               </p>
 
               {/* Paired Diagram: Symptom Management vs Root-Cause Reversal */}
