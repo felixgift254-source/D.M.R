@@ -1,6 +1,6 @@
 import React from 'react';
 import AnalyticsCharts from './AnalyticsCharts';
-import { Flame, Sparkles } from 'lucide-react';
+import { Flame, Sparkles, Droplet } from 'lucide-react';
 
 const Dashboard = ({ currentPhase, lastLogUpdate }) => {
   const phaseDescriptions = {
@@ -40,6 +40,75 @@ const Dashboard = ({ currentPhase, lastLogUpdate }) => {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Steps for Testing Blood Glucose */}
+      <div className="bg-white/95 backdrop-blur-md border border-stone-200/80 rounded-2xl p-6 shadow-sm">
+        <div className="flex items-center gap-2 pb-3 mb-4 border-b border-stone-200/70">
+          <Droplet size={18} className="text-[#1e40af]" />
+          <h3 className="text-base font-bold text-slate-800">
+            Steps for Testing Blood Glucose
+          </h3>
+        </div>
+
+        <ol className="space-y-3 font-sans text-[14px] text-[#1e40af] leading-relaxed" style={{ fontFamily: 'sans-serif', fontSize: '14px', color: '#1e40af' }}>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">1.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Wash and dry hands:</strong>{' '}
+              Wash your hands with warm water and soap, then dry them well so food or residue does not skew the reading. (If using an <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>alcohol swab</strong>, let your skin dry completely first.)
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">2.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Prepare the lancing device:</strong>{' '}
+              Insert a fresh, single-use <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>lancet</strong> into your <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>lancing device</strong>, remove its protective cap, replace the <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>device cap</strong>, and set the puncture depth.
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">3.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Insert a test strip:</strong>{' '}
+              Take one <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>test strip</strong> from its container (close the lid right away to protect against moisture and light) and insert it into the <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>blood glucose meter</strong> to turn it on automatically.
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">4.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Prick the finger:</strong>{' '}
+              Hold the <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>lancing device</strong> against the side of a fingertip and press the release button. (Rotating fingers each time helps prevent soreness.)
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">5.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Collect a drop of blood:</strong>{' '}
+              Gently massage or apply light pressure along your finger towards the tip until a small drop of blood forms.
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">6.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Apply blood to the strip:</strong>{' '}
+              Touch the edge or pad of the <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>test strip</strong> to the blood drop until the <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>meter</strong> signals it has enough sample.
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">7.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Read and record:</strong>{' '}
+              Wait a few seconds for the reading to appear on your <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>meter</strong>—typically displayed in mmol/L in Kenya and the UK or mg/dL in the US—and log your result.
+            </div>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="font-bold text-[#1e40af] flex-shrink-0">8.</span>
+            <div>
+              <strong className="font-bold text-[#1e40af]">Dispose safely:</strong>{' '}
+              Remove the used <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>test strip</strong> and place the used <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>lancet</strong> in a puncture-resistant <strong className="font-bold text-[#800000]" style={{ color: '#800000', fontWeight: 'bold' }}>sharps container</strong>.
+            </div>
+          </li>
+        </ol>
       </div>
 
       {/* Reversal Analytics Chart Component */}
