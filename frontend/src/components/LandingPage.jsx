@@ -7,6 +7,7 @@ import {
   Sparkles,
   AlertTriangle,
   Pill,
+  Syringe,
   RotateCcw,
   CheckCircle2,
   Leaf,
@@ -242,61 +243,131 @@ export default function LandingPage() {
 
         {/* SECTION 4: MEDICATIONS & THEIR LIMITATIONS */}
         <section className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-            Medications Used to Manage Diabetes & Their Limitations
-          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Heading, Comprehensive Paragraph, and Comparison Card */}
+            <div className="lg:col-span-7 space-y-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
+                Medications Used to Manage Diabetes & Their Limitations
+              </h2>
 
-          {/* 1 Comprehensive Paragraph */}
-          <p className="text-base text-slate-600 leading-relaxed font-normal">
-            Conventional diabetes care routinely prescribes Biguanides (Metformin) to suppress liver glucose production, Sulfonylureas (Glimepiride, Glibenclamide) to force beta-cells to secrete more insulin, SGLT2 inhibitors (Empagliflozin) to excrete glucose in urine, and exogenous insulin injections for advanced beta-cell exhaustion. While these pharmacotherapies are vital for preventing acute glycemic emergencies, they only manage circulating blood glucose numbers without addressing the underlying accumulation of ectopic organ fat. As a consequence, patients remain locked into chronic disease management, escalating dosages, and mounting financial strain, underscoring the urgent necessity of a root-cause nutritional intervention under close physician supervision.
-          </p>
+              {/* 1 Comprehensive Paragraph */}
+              <p className="text-base text-slate-600 leading-relaxed font-normal">
+                Conventional diabetes care routinely prescribes Biguanides (Metformin) to suppress liver glucose production, Sulfonylureas (Glimepiride, Glibenclamide) to force beta-cells to secrete more insulin, DPP-4 inhibitors (gliptins) to prolong incretin activity, SGLT2 inhibitors (Empagliflozin) to excrete glucose in urine, and exogenous insulin injections administered via specialized syringes for advanced beta-cell exhaustion. While these pharmacotherapies are vital for preventing acute glycemic emergencies, they only manage circulating blood glucose numbers without addressing the underlying accumulation of ectopic organ fat. As a consequence, patients remain locked into chronic disease management, escalating dosages, and mounting financial strain, underscoring the urgent necessity of a root-cause nutritional intervention under close physician supervision.
+              </p>
 
-          {/* Paired Diagram: Symptom Management vs Root-Cause Reversal */}
-          <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-6 sm:p-8 shadow-sm">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
-              Comparison: Managing Symptoms vs. Reversing Root Cause
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border border-stone-200/80 rounded-2xl p-5 bg-stone-50/70 space-y-3">
-                <div className="flex items-center gap-2 text-slate-700 font-bold text-sm">
-                  <Pill size={18} className="text-slate-500" />
-                  <span>Standard Medical Management</span>
+              {/* Paired Diagram: Symptom Management vs Root-Cause Reversal */}
+              <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-6 sm:p-7 shadow-sm">
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+                  Comparison: Managing Symptoms vs. Reversing Root Cause
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="border border-stone-200/80 rounded-2xl p-5 bg-stone-50/70 space-y-3">
+                    <div className="flex items-center gap-2 text-slate-700 font-bold text-sm">
+                      <Pill size={18} className="text-slate-500" />
+                      <span>Standard Medical Management</span>
+                    </div>
+                    <ul className="text-xs text-slate-600 space-y-2">
+                      <li className="flex items-start gap-2">
+                        <span className="text-rose-500 font-bold">•</span>
+                        <span><strong>Mechanism:</strong> Lowers circulating blood sugar while organs remain clogged with ectopic triglycerides.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-rose-500 font-bold">•</span>
+                        <span><strong>Trajectory:</strong> Progressive disease progression requiring higher doses, more pills, or eventual insulin dependence.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-rose-500 font-bold">•</span>
+                        <span><strong>Financial Burden:</strong> Perpetual monthly spend on drugs, test strips, and routine consultations.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="border border-emerald-200/70 rounded-2xl p-5 bg-emerald-50/50 space-y-3">
+                    <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                      <RotateCcw size={18} className="text-emerald-600" />
+                      <span>DMR Nutritional Reversal</span>
+                    </div>
+                    <ul className="text-xs text-emerald-950/80 space-y-2">
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span><strong>Mechanism:</strong> Depletes liver and pancreatic fat, allowing natural beta-cells to recover their insulin spike.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span><strong>Trajectory:</strong> Stepwise medication de-escalation under doctor supervision towards sustained drug-free remission.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span><strong>Financial Relief:</strong> Drastically slashes lifelong prescription and complication expenditures.</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <ul className="text-xs text-slate-600 space-y-2">
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-500 font-bold">•</span>
-                    <span><strong>Mechanism:</strong> Lowers circulating blood sugar while organs remain clogged with ectopic triglycerides.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-500 font-bold">•</span>
-                    <span><strong>Trajectory:</strong> Progressive disease progression requiring higher doses, more pills, or eventual insulin dependence.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-500 font-bold">•</span>
-                    <span><strong>Financial Burden:</strong> Perpetual monthly spend on drugs, test strips, and routine consultations.</span>
-                  </li>
-                </ul>
               </div>
+            </div>
 
-              <div className="border border-emerald-200/70 rounded-2xl p-5 bg-emerald-50/50 space-y-3">
-                <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-                  <RotateCcw size={18} className="text-emerald-600" />
-                  <span>DMR Nutritional Reversal</span>
+            {/* Right Column: Medications Visual & Breakdown */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-5 sm:p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between pb-1">
+                  <span className="text-[11px] font-bold text-stone-700 bg-stone-100 border border-stone-200/80 px-3 py-1 rounded-full uppercase tracking-wider">
+                    Prescribed Pharmacotherapies
+                  </span>
+                  <span className="text-xs text-stone-600 font-medium">Standard Regimens</span>
                 </div>
-                <ul className="text-xs text-emerald-950/80 space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Mechanism:</strong> Depletes liver and pancreatic fat, allowing natural beta-cells to recover their insulin spike.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Trajectory:</strong> Stepwise medication de-escalation under doctor supervision towards sustained drug-free remission.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Financial Relief:</strong> Drastically slashes lifelong prescription and complication expenditures.</span>
-                  </li>
-                </ul>
+
+                {/* Picture displaying insulin, syringes, and oral medications */}
+                <div className="rounded-2xl border border-stone-200/80 overflow-hidden bg-white shadow-inner">
+                  <img
+                    src="/images/diabetes-medications.jpg"
+                    alt="Diabetes medications: injectable insulin, administration syringes, metformin tablets, sulfonylureas, and DPP-4 inhibitors (gliptins)"
+                    className="w-full h-auto object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Medication Details Breakdown */}
+                <div className="space-y-2.5 pt-2">
+                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
+                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
+                      <Syringe size={14} className="text-blue-600 flex-shrink-0" />
+                      <span>Insulin & Administration Syringes</span>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-[11px]">
+                      Exogenous hormone administered subcutaneously via fine-gauge U-100 syringes or pen needles when the pancreas is fatigued by toxic organ fat.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
+                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
+                      <Pill size={14} className="text-emerald-600 flex-shrink-0" />
+                      <span>Metformin (Biguanides)</span>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-[11px]">
+                      First-line oral tablet to suppress excessive glucose production from a fatty liver and enhance peripheral insulin sensitivity.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
+                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
+                      <Pill size={14} className="text-amber-600 flex-shrink-0" />
+                      <span>Sulfonylureas (Glimepiride, Glibenclamide)</span>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-[11px]">
+                      Oral secretagogues that force stressed pancreatic beta-cells to continually secrete more insulin, accelerating beta-cell burnout.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
+                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
+                      <Pill size={14} className="text-indigo-600 flex-shrink-0" />
+                      <span>DPP-4 Inhibitors (Gliptins)</span>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-[11px]">
+                      Oral medications that prolong active GLP-1 incretin hormones to stimulate post-meal insulin release and reduce glucagon output.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
