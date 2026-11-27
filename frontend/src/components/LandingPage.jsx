@@ -7,7 +7,6 @@ import {
   Sparkles,
   AlertTriangle,
   Pill,
-  Syringe,
   RotateCcw,
   CheckCircle2,
   Leaf,
@@ -306,67 +305,16 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column: Medications Visual & Breakdown */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-5 sm:p-6 shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-1">
-                  <span className="text-[11px] font-bold text-stone-700 bg-stone-100 border border-stone-200/80 px-3 py-1 rounded-full uppercase tracking-wider">
-                    Prescribed Pharmacotherapies
-                  </span>
-                  <span className="text-xs text-stone-600 font-medium">Standard Regimens</span>
-                </div>
-
-                {/* Picture displaying insulin, syringes, and oral medications */}
-                <div className="rounded-2xl border border-stone-200/80 overflow-hidden bg-white shadow-inner">
+            {/* Right Column: Medications Visual */}
+            <div className="lg:col-span-5 self-center">
+              <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-3 sm:p-4 shadow-sm">
+                <div className="rounded-2xl border border-stone-200/80 overflow-hidden bg-stone-50">
                   <img
                     src="/images/diabetes-medications.jpg"
-                    alt="Diabetes medications: injectable insulin, administration syringes, metformin tablets, sulfonylureas, and DPP-4 inhibitors (gliptins)"
-                    className="w-full h-auto object-cover"
+                    alt="Common diabetes medications: insulin vial, injection syringe, prescription pills, and blood glucose monitor"
+                    className="w-full h-auto object-cover object-center"
                     loading="lazy"
                   />
-                </div>
-
-                {/* Medication Details Breakdown */}
-                <div className="space-y-2.5 pt-2">
-                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
-                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
-                      <Syringe size={14} className="text-blue-600 flex-shrink-0" />
-                      <span>Insulin & Administration Syringes</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed text-[11px]">
-                      Exogenous hormone administered subcutaneously via fine-gauge U-100 syringes or pen needles when the pancreas is fatigued by toxic organ fat.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
-                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
-                      <Pill size={14} className="text-emerald-600 flex-shrink-0" />
-                      <span>Metformin (Biguanides)</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed text-[11px]">
-                      First-line oral tablet to suppress excessive glucose production from a fatty liver and enhance peripheral insulin sensitivity.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
-                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
-                      <Pill size={14} className="text-amber-600 flex-shrink-0" />
-                      <span>Sulfonylureas (Glimepiride, Glibenclamide)</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed text-[11px]">
-                      Oral secretagogues that force stressed pancreatic beta-cells to continually secrete more insulin, accelerating beta-cell burnout.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-stone-50/80 border border-stone-200/70 text-xs">
-                    <div className="flex items-center gap-2 font-bold text-slate-800 mb-1">
-                      <Pill size={14} className="text-indigo-600 flex-shrink-0" />
-                      <span>DPP-4 Inhibitors (Gliptins)</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed text-[11px]">
-                      Oral medications that prolong active GLP-1 incretin hormones to stimulate post-meal insulin release and reduce glucagon output.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
