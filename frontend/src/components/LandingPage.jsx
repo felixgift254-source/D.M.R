@@ -242,71 +242,21 @@ export default function LandingPage() {
 
         {/* SECTION 4: MEDICATIONS & THEIR LIMITATIONS */}
         <section className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Heading, Comprehensive Paragraph, and Comparison Card */}
-            <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-                Medications Used to Manage Diabetes & Their Limitations
-              </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
+            Medications Used to Manage Diabetes & Their Limitations
+          </h2>
 
-              {/* 1 Concise Paragraph */}
-              <p className="text-base text-slate-600 leading-relaxed font-normal">
+          {/* Side-by-Side: Trimmed Paragraph and Enlarged Medications Image */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Trimmed Paragraph */}
+            <div className="lg:col-span-6">
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
                 Conventional diabetes care routinely prescribes Biguanides (Metformin) to suppress liver glucose production, Sulfonylureas (Glimepiride, Glibenclamide) to force beta-cells to secrete more insulin, DPP-4 inhibitors (gliptins) to prolong incretin activity, SGLT2 inhibitors (Empagliflozin) to excrete glucose in urine, and exogenous insulin injections administered via specialized syringes for advanced beta-cell exhaustion.
               </p>
-
-              {/* Paired Diagram: Symptom Management vs Root-Cause Reversal */}
-              <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-6 sm:p-7 shadow-sm">
-                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
-                  Comparison: Managing Symptoms vs. Reversing Root Cause
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="border border-stone-200/80 rounded-2xl p-5 bg-stone-50/70 space-y-3">
-                    <div className="flex items-center gap-2 text-slate-700 font-bold text-sm">
-                      <Pill size={18} className="text-slate-500" />
-                      <span>Standard Medical Management</span>
-                    </div>
-                    <ul className="text-xs text-slate-600 space-y-2">
-                      <li className="flex items-start gap-2">
-                        <span className="text-rose-500 font-bold">•</span>
-                        <span><strong>Mechanism:</strong> Lowers circulating blood sugar while organs remain clogged with ectopic triglycerides.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-rose-500 font-bold">•</span>
-                        <span><strong>Trajectory:</strong> Progressive disease progression requiring higher doses, more pills, or eventual insulin dependence.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-rose-500 font-bold">•</span>
-                        <span><strong>Financial Burden:</strong> Perpetual monthly spend on drugs, test strips, and routine consultations.</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="border border-emerald-200/70 rounded-2xl p-5 bg-emerald-50/50 space-y-3">
-                    <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-                      <RotateCcw size={18} className="text-emerald-600" />
-                      <span>DMR Nutritional Reversal</span>
-                    </div>
-                    <ul className="text-xs text-emerald-950/80 space-y-2">
-                      <li className="flex items-start gap-2">
-                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span><strong>Mechanism:</strong> Depletes liver and pancreatic fat, allowing natural beta-cells to recover their insulin spike.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span><strong>Trajectory:</strong> Stepwise medication de-escalation under doctor supervision towards sustained drug-free remission.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span><strong>Financial Relief:</strong> Drastically slashes lifelong prescription and complication expenditures.</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: Medications Visual */}
-            <div className="lg:col-span-5 self-center">
+            {/* Enlarged Medications Image matching paragraph */}
+            <div className="lg:col-span-6">
               <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-3 sm:p-4 shadow-sm">
                 <div className="rounded-2xl border border-stone-200/80 overflow-hidden bg-stone-50">
                   <img
@@ -316,6 +266,56 @@ export default function LandingPage() {
                     loading="lazy"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Paired Diagram: Symptom Management vs Root-Cause Reversal */}
+          <div className="bg-white/90 backdrop-blur rounded-3xl border border-stone-200/70 p-6 sm:p-8 shadow-sm">
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+              Comparison: Managing Symptoms vs. Reversing Root Cause
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="border border-stone-200/80 rounded-2xl p-5 bg-stone-50/70 space-y-3">
+                <div className="flex items-center gap-2 text-slate-700 font-bold text-sm">
+                  <Pill size={18} className="text-slate-500" />
+                  <span>Standard Medical Management</span>
+                </div>
+                <ul className="text-xs text-slate-600 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-rose-500 font-bold">•</span>
+                    <span><strong>Mechanism:</strong> Lowers circulating blood sugar while organs remain clogged with ectopic triglycerides.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-rose-500 font-bold">•</span>
+                    <span><strong>Trajectory:</strong> Progressive disease progression requiring higher doses, more pills, or eventual insulin dependence.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-rose-500 font-bold">•</span>
+                    <span><strong>Financial Burden:</strong> Perpetual monthly spend on drugs, test strips, and routine consultations.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border border-emerald-200/70 rounded-2xl p-5 bg-emerald-50/50 space-y-3">
+                <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                  <RotateCcw size={18} className="text-emerald-600" />
+                  <span>DMR Nutritional Reversal</span>
+                </div>
+                <ul className="text-xs text-emerald-950/80 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Mechanism:</strong> Depletes liver and pancreatic fat, allowing natural beta-cells to recover their insulin spike.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Trajectory:</strong> Stepwise medication de-escalation under doctor supervision towards sustained drug-free remission.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <span><strong>Financial Relief:</strong> Drastically slashes lifelong prescription and complication expenditures.</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
